@@ -1,0 +1,7 @@
+{
+  "name": "my-dictionary",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
