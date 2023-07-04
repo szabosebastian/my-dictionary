@@ -13,5 +13,16 @@
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <app-explore-container name="Tab 1 Szebi"></app-explore-container>
+  <ion-button (click)="mentes()">
+    Mentés
+  </ion-button>
+
+  <ion-button (click)="keres()">
+    Data
+  </ion-button>
+
+  <ion-text>
+    {{data?.test}}
+  </ion-text>
 </ion-content>

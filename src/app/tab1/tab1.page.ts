@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Storage } from "@ionic/storage-angular";
 
 @Component({
   selector: 'app-tab1',
@@ -7,6 +8,20 @@ import { Component } from '@angular/core';
 })
 export class Tab1Page {
 
-  constructor() {}
+  data?: any;
 
+  constructor(
+    private storage: Storage
+  ) {}
+
+  keres() {
+    this.storage.get("test").then(res => {
+      console.log(res)
+      this.data = res;
+    });
+  }
+
+  mentes() {
+    this.storage.set("test", { test: "testUzenet" });
+  }
 }
