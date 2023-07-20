@@ -31,7 +31,10 @@
                 "output": "./svg"
               }
             ],
-            "styles": ["src/theme/variables.scss", "src/global.scss"],
+            "styles": [
+              "src/theme/variables.scss",
+              "src/global.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -111,7 +114,10 @@
                 "output": "./svg"
               }
             ],
-            "styles": ["src/theme/variables.scss", "src/global.scss"],
+            "styles": [
+              "src/theme/variables.scss",
+              "src/global.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -135,10 +141,36 @@
   },
   "cli": {
     "schematicCollections": [
+      "@schematics/angular",
       "@ionic/angular-toolkit"
     ]
   },
   "schematics": {
+    "@schematics/angular:component": {
+      "skipTests": true,
+      "standalone": true,
+      "style": "scss"
+    },
+    "@schematics/angular:directive": {
+      "skipTests": true,
+      "standalone": true
+    },
+    "@schematics/angular:pipe": {
+      "skipTests": true,
+      "standalone": true
+    },
+    "@schematics/angular:service": {
+      "skipTests": true
+    },
+    "@schematics/angular:guard": {
+      "skipTests": true
+    },
+    "@schematics/angular:resolver": {
+      "skipTests": true
+    },
+    "@schematics/angular:interceptor": {
+      "skipTests": true
+    },
     "@ionic/angular-toolkit:component": {
       "styleext": "scss"
     },

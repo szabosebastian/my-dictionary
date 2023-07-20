@@ -1,27 +1,27 @@
-interface Workbook {
+export interface Workbook {
   id: string;
   collections: Collection[];
   //todo owner
 }
 
-interface Collection {
+export interface Collection {
   language: Language; //todo vmi enum
   dictionaries: Dictionary[];
 }
 
 //todo vmi enum (el kéne tárolni enumként a rövid nevét, stringként meg a hosszút) HU - Hungarian
-interface Language {
+export interface Language {
   value: string;
 }
 
-interface Dictionary {
+export interface Dictionary {
   id: string;
   name: string;
   textLimit: number;
   texts: Text[];
 }
 
-interface Text {
+export interface Text {
   searchedText: string;
   translatedText: string;
 }
