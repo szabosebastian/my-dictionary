@@ -1,0 +1,32 @@
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-select [value]="language" label="Default label" placeholder="Language"
+                  [formControl]="language">
+        <ion-select-option *ngFor="let collection of collections$ | async"
+                           [value]="collection.language">{{languageDisplayNames[collection.language]}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-button (click)="addCollection()">
+      Add collection
+    </ion-button>
+
+    <ion-card *ngFor="let dictionary of dictionaries$ | async">
+      <ion-card-header>
+        <ion-card-title>{{dictionary.name}}</ion-card-title>
+        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        Here's a small text description for the card content. Nothing more, nothing less.
+      </ion-card-content>
+
+      <ion-button (click)="removeDictionary(dictionary.id)" fill="clear">Törlés</ion-button>
+    </ion-card>
+  </ion-list>
+
+  <ion-button (click)="consoleLog()">
+    Console log
+  </ion-button>
+</ion-content>

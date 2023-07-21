@@ -1,6 +1,7 @@
 import { Routes } from "@angular/router";
-import { TabsPage } from "./tabs/tabs.page";
-import { Tab1Component } from "./tab1/tab1.component";
+import { TabsPage } from "./components/tabs/tabs.page";
+import { TranslateComponent } from "./components/translate/translate.component";
+import { CollectionComponent } from "./components/collection/collection.component";
 
 export const APP_ROUTES: Routes = [
   {
@@ -8,9 +9,13 @@ export const APP_ROUTES: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
-        component: Tab1Component
-      }
+        path: 'collection',
+        component: CollectionComponent
+      },
+      {
+        path: 'translate',
+        component: TranslateComponent
+      },
     ]
   }
 ];
