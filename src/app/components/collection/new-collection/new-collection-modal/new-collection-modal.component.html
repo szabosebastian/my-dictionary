@@ -1,3 +1,12 @@
-<ion-button (click)="cancel()">
-  Close
-</ion-button>
+<ion-content [formGroup]="form">
+  <ion-input label="Name" formControlName="name">
+
+  </ion-input>
+  <ion-button (click)="confirm()">
+    Add
+  </ion-button>
+  <ion-button (click)="cancel()">
+    Close
+  </ion-button>
+</ion-content>
+

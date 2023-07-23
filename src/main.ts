@@ -15,6 +15,11 @@ import {
   withRouterConfig
 } from '@angular/router';
 import { APP_ROUTES } from "./app/routes";
+import { StoreModule } from "@ngrx/store";
+import { EffectsModule } from "@ngrx/effects";
+import { WorkbookEffects } from "./app/state/workbook/workbook.effects";
+import { workbookReducer } from "./app/state/workbook/workbook.reducer";
+import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 
 if (environment.production) {
   enableProdMode();
@@ -28,7 +33,24 @@ bootstrapApplication(AppComponent, {
       withRouterConfig({ paramsInheritanceStrategy: 'always' }),
       withComponentInputBinding(),
     ),
-    importProvidersFrom(BrowserModule, IonicModule, IonicModule.forRoot(), IonicStorageModule.forRoot()),
+    importProvidersFrom
+    (BrowserModule,
+      IonicModule,
+      IonicModule.forRoot(),
+      IonicStorageModule.forRoot(),
+      StoreModule.forRoot(
+        {
+          workbook: workbookReducer
+        }
+      ),
+      StoreDevtoolsModule.instrument({
+        name: "DevTool MyDictionary NgRx",
+        maxAge: 25, // Retains last 25 states
+        logOnly: false, // Restrict extension to log-only mode
+        trace: true
+      }),
+      EffectsModule.forRoot([WorkbookEffects])
+    ),
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ]
 })
