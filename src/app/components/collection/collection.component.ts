@@ -5,7 +5,7 @@ import { Collection, Dictionary, Language, languageDisplayNames, Workbook } from
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { WorkbookService } from "../../core/services/workbook.service";
 import { NewCollectionModalComponent } from "./new-collection/new-collection-modal/new-collection-modal.component";
-import { filter, map, Observable, take, tap } from "rxjs";
+import { map, Observable, take, tap } from "rxjs";
 import { Storage } from "@ionic/storage-angular";
 import { Store } from "@ngrx/store";
 import { selectWorkbook } from "../../state/workbook/workbook.selector";
@@ -79,25 +79,6 @@ export class CollectionComponent implements OnInit {
     };
   }
 
-// Step 2: Delete the dictionary from the Observable<Workbook>
-  deleteDictionaryFromWorkbook(workbook$: Observable<Workbook>, dictionaryIdToDelete: string): Observable<Workbook> {
-    console.log("ASd2");
-    return workbook$.pipe(
-      map((workbook) =>
-          // Step 3: Create a new Workbook object with the dictionary deleted
-          this.deleteDictionary(workbook, dictionaryIdToDelete)
-        // Step 4: Perform side effects (if needed) when the dictionary is delete
-      ),
-      tap((updatedWorkbook) => {
-        // Side effect example: Logging the updated workbook to the console
-        console.log('Updated Workbook:', updatedWorkbook);
-      }),
-      // Step 5: Return the modified Observable<Workbook>
-      filter(() => false) // This filter ensures that the original value is not emitted, only the modified value is emitted.
-    );
-  }
-
-
   async addDictionaryModal() {
     const modal = await this.modalCtrl.create({
       component: NewCollectionModalComponent,
@@ -126,8 +107,7 @@ export class CollectionComponent implements OnInit {
       ...workbook,
       collections: workbook.collections.map(c => {
         if (c.language === language) {
-          let dictionariesOfCollection = [...c.dictionaries];
-          dictionariesOfCollection.push(newDictionary);
+          return { ...c, dictionaries: [...c.dictionaries, newDictionary] };
         }
         return c;
       }),
