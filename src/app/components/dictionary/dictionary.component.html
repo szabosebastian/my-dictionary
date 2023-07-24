@@ -14,7 +14,7 @@
           *ngFor="let language of (viewModel$ | async)?.languages"
           [value]="language">{{language.displayName}}</ion-select-option>
       </ion-select>
-      <ion-button (click)="addDictionaryModal()">
+      <ion-button (click)="addLanguageModal()">
         <ion-icon slot="icon-only" name="add-outline"></ion-icon>
       </ion-button>
     </ion-item>

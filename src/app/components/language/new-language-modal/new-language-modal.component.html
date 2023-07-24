@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Header</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [formGroup]="form">
+  <ion-input label="Short name" formControlName="shortName">
+  </ion-input>
+
+  <ion-input label="Display name" formControlName="displayName">
+  </ion-input>
+  
+  <ion-button (click)="confirm()">
+    Add
+  </ion-button>
+  <ion-button (click)="cancel()">
+    Close
+  </ion-button>
+</ion-content>
+

@@ -18,6 +18,7 @@ import { selectWorkbook } from "../../state/workbook/workbook.selector";
 import { setWorkbook } from "../../state/workbook/workbook.actions";
 import { FindDictionariesByLanguagePipe } from "../../pipes/find-dictionaries-by-language.pipe";
 import { CurrentLanguagePipe } from "../../pipes/current-language.pipe";
+import { NewLanguageModalComponent } from "../language/new-language-modal/new-language-modal.component";
 
 @Component({
   selector: 'app-dictionary',
@@ -76,6 +77,36 @@ export class DictionaryComponent implements OnInit {
       dictionary.language = this.currentLanguageControl.getRawValue();
       this.addDictionary(dictionary);
     }
+  }
+
+  async addLanguageModal() {
+    const modal = await this.modalCtrl.create({
+      component: NewLanguageModalComponent,
+    });
+
+    await modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      const language = data as Language;
+      this.addLanguage(language);
+    }
+  }
+
+  addLanguage(language: Language) {
+    this.viewModel$?.pipe(
+      take(1),
+      map(workbook => this.createNewWorkbookWithNewAddedLanguage(workbook, language)),
+      tap((wb) => this.store.dispatch(setWorkbook({ workbook: wb })))
+    ).subscribe();
+  }
+
+  createNewWorkbookWithNewAddedLanguage(workbook: Workbook, language: Language): Workbook {
+    return {
+      ...workbook,
+      languages: [...workbook.languages, language],
+    };
   }
 
   addDictionary(newDictionary: Dictionary) {
