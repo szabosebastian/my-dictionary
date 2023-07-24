@@ -21,7 +21,7 @@ export interface Dictionary {
 }
 
 export interface Text {
-  searchedText: string;
+  originalText: string;
   translatedText: string;
 }
 
