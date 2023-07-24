@@ -6,13 +6,17 @@
 <ion-content>
   <ion-list>
     <ion-item>
-      <ion-select [value]="currentLanguageControl.getRawValue().shortName | currentLanguage:  viewModel$| async"
+      <ion-select class="ion-margin-end"
+                  [value]="currentLanguageControl.getRawValue().shortName | currentLanguage:  viewModel$| async"
                   label="Default label" placeholder="Language"
                   [formControl]="currentLanguageControl">
         <ion-select-option
           *ngFor="let language of (viewModel$ | async)?.languages"
           [value]="language">{{language.displayName}}</ion-select-option>
       </ion-select>
+      <ion-button (click)="addDictionaryModal()">
+        <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+      </ion-button>
     </ion-item>
 
     <ion-button (click)="addDictionaryModal()">
