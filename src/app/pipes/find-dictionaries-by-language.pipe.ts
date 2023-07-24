@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { map, Observable, of } from "rxjs";
 import { Dictionary, Language, Workbook } from "../core/model/workbook";
+import { map, Observable, of } from "rxjs";
 
 @Pipe({
-  name: 'dictionary',
+  name: 'findDictionariesByLanguage',
   standalone: true
 })
-export class DictionaryPipe implements PipeTransform {
+export class FindDictionariesByLanguagePipe implements PipeTransform {
 
   transform(language: Language, workbook?: Observable<Workbook>): Observable<Dictionary[]> {
     if (!workbook) {
@@ -14,8 +14,8 @@ export class DictionaryPipe implements PipeTransform {
     }
     return workbook
       .pipe(
-        map(wb => wb.collections),
-        map(collections => collections.find(d => d.language === language)?.dictionaries || []),
+        map(workbook => workbook.dictionaries.filter(d => d.language.shortName === language.shortName) || []),
       );
   }
+
 }

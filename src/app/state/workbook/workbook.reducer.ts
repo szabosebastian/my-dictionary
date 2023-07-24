@@ -9,6 +9,8 @@ export interface WorkbookState {
 export const initialState: WorkbookState = {
   workbook: {
     id: "",
+    languages: [],
+    dictionaries: [],
     collections: []
   }
 };

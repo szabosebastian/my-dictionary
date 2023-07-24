@@ -2,7 +2,9 @@ export const WORKBOOK = "workbook";
 
 export interface Workbook {
   id: string;
+  languages: Language[],
   collections: Collection[];
+  dictionaries: Dictionary[];
 }
 
 export interface Collection {
@@ -13,6 +15,7 @@ export interface Collection {
 export interface Dictionary {
   id: string;
   name: string;
+  language: Language;
   textLimit: number;
   texts: Text[];
 }
@@ -22,7 +25,12 @@ export interface Text {
   translatedText: string;
 }
 
-export enum Language {
+export interface Language {
+  shortName: string;
+  displayName: string;
+}
+
+export enum DefaultLanguage {
   BG = "BG",
   CS = "CS",
   DA = "DA",
@@ -54,7 +62,7 @@ export enum Language {
   ZH = "ZH",
 }
 
-export const languageDisplayNames: Record<Language, string> = {
+export const defaultLanguagesDisplayNames: Record<DefaultLanguage, string> = {
   BG: "Bulgarian",
   CS: "Czech",
   DA: "Danish",
@@ -85,5 +93,4 @@ export const languageDisplayNames: Record<Language, string> = {
   UK: "Ukrainian",
   ZH: "Chinese",
 };
-
 

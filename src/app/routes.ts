@@ -1,7 +1,7 @@
 import { Routes } from "@angular/router";
 import { TabsPage } from "./components/tabs/tabs.page";
 import { TranslateComponent } from "./components/translate/translate.component";
-import { CollectionComponent } from "./components/collection/collection.component";
+import { DictionaryComponent } from "./components/dictionary/dictionary.component";
 
 export const APP_ROUTES: Routes = [
   {
@@ -10,7 +10,7 @@ export const APP_ROUTES: Routes = [
     children: [
       {
         path: 'collection',
-        component: CollectionComponent
+        component: DictionaryComponent
       },
       {
         path: 'translate',

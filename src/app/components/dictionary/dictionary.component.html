@@ -6,19 +6,21 @@
 <ion-content>
   <ion-list>
     <ion-item>
-      <ion-select [value]="language" label="Default label" placeholder="Language"
-                  [formControl]="language">
+      <ion-select [value]="currentLanguageControl.getRawValue().shortName | currentLanguage:  viewModel$| async"
+                  label="Default label" placeholder="Language"
+                  [formControl]="currentLanguageControl">
         <ion-select-option
-          *ngFor="let collection of (viewModel$ | async)?.collections"
-          [value]="collection.language">{{languageDisplayNames[collection.language]}}</ion-select-option>
+          *ngFor="let language of (viewModel$ | async)?.languages"
+          [value]="language">{{language.displayName}}</ion-select-option>
       </ion-select>
     </ion-item>
 
     <ion-button (click)="addDictionaryModal()">
-      Add collection
+      Add dictionary
     </ion-button>
 
-    <ion-card *ngFor="let dictionary of language.getRawValue() | dictionary: viewModel$  | async">
+    <ion-card
+      *ngFor="let dictionary of currentLanguageControl.getRawValue() | findDictionariesByLanguage : viewModel$  | async">
       <ion-card-header>
         <ion-card-title>{{dictionary.name}}</ion-card-title>
         <ion-card-subtitle>Card Subtitle</ion-card-subtitle>

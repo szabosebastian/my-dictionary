@@ -29,7 +29,7 @@ export class WorkbookEffects {
       ofType(initStorage),
       tap(x => console.log("init workbook ngrx")),
       switchMap(() =>
-        this.storageService.getValue(WORKBOOK).then(wb => {
+        this.storageService.get(WORKBOOK).then(wb => {
           return initWorkbook({ workbook: wb });
         })
       )),
@@ -41,7 +41,7 @@ export class WorkbookEffects {
       take(1),
       tap(x => console.log("set workbook ngrx")),
       tap(({ workbook }) =>
-        this.storageService.setValue(WORKBOOK, workbook)
+        this.storageService.set(WORKBOOK, workbook)
       )),
   );
 }

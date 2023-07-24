@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Collection, Language, WORKBOOK, Workbook } from "../model/workbook";
+import { DefaultLanguage, defaultLanguagesDisplayNames, Language, WORKBOOK, Workbook } from "../model/workbook";
 import { Storage } from "@ionic/storage-angular";
 
 
@@ -18,42 +18,42 @@ export class StorageService {
 
     let workbook: Workbook = await this.storage.get(WORKBOOK);
 
-    console.log("Storage init start ");
-    console.log(workbook);
-    console.log("-");
+    console.log("Storage init start", workbook);
 
     if (!workbook) {
       //todo id
-      workbook = { id: '', collections: [] } as Workbook;
-      this.createCollections(workbook);
-      workbook.collections.find(d => d.language = Language.EN)?.dictionaries.push(
+      workbook = { id: '', languages: [], dictionaries: [], collections: [] } as Workbook;
+      this.createDefaultLanguages(workbook);
+      workbook.dictionaries.push(
         {
           name: "teszt",
           id: '1',
+          language: { shortName: DefaultLanguage.EN, displayName: defaultLanguagesDisplayNames[DefaultLanguage.EN] },
           textLimit: 10,
           texts: []
         }
       );
       await this.storage.set(WORKBOOK, workbook);
-      console.log("Workbook uploaded by collections");
+      console.log("Workbook uploaded by mock dictionaries");
     }
-    console.log("Storage init end");
-    console.log(workbook);
-    console.log("-");
+    console.log("Storage init end", workbook);
   }
 
-  createCollections(workbook: Workbook): void {
-    const languageKeys = Object.keys(Language);
+  createDefaultLanguages(workbook: Workbook): void {
+    const languageKeys = Object.keys(DefaultLanguage);
     languageKeys.forEach((key, index) => {
-      workbook.collections.push({ language: key, dictionaries: [] } as Collection);
+      workbook.languages.push({
+        shortName: key,
+        displayName: defaultLanguagesDisplayNames[DefaultLanguage[key as keyof typeof DefaultLanguage]]
+      } as Language);
     });
   }
 
-  setValue(key: string, value: any): void {
+  set(key: string, value: any): void {
     this.storage.set(key, value);
   }
 
-  getValue(key: string): Promise<any> {
+  get(key: string): Promise<any> {
     return this.storage.get(key);
   }
 }
