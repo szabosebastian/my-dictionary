@@ -26,6 +26,7 @@ export interface Text {
 }
 
 export interface Language {
+  id: string;
   shortName: string;
   displayName: string;
 }

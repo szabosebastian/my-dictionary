@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DefaultLanguage, defaultLanguagesDisplayNames, Language, WORKBOOK, Workbook } from "../model/workbook";
 import { Storage } from "@ionic/storage-angular";
+import { v4 as uuid } from "uuid";
 
 
 @Injectable({
@@ -28,7 +29,11 @@ export class StorageService {
         {
           name: "teszt",
           id: '1',
-          language: { shortName: DefaultLanguage.EN, displayName: defaultLanguagesDisplayNames[DefaultLanguage.EN] },
+          language: {
+            id: uuid(),
+            shortName: DefaultLanguage.EN,
+            displayName: defaultLanguagesDisplayNames[DefaultLanguage.EN]
+          },
           textLimit: 10,
           texts: []
         }
@@ -43,6 +48,7 @@ export class StorageService {
     const languageKeys = Object.keys(DefaultLanguage);
     languageKeys.forEach((key, index) => {
       workbook.languages.push({
+        id: uuid(),
         shortName: key,
         displayName: defaultLanguagesDisplayNames[DefaultLanguage[key as keyof typeof DefaultLanguage]]
       } as Language);

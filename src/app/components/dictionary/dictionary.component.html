@@ -17,6 +17,9 @@
       <ion-button (click)="addLanguageModal()">
         <ion-icon slot="icon-only" name="add-outline"></ion-icon>
       </ion-button>
+      <ion-button (click)="removeLanguage()">
+        <ion-icon slot="icon-only" name="remove-outline"></ion-icon>
+      </ion-button>
     </ion-item>
 
     <ion-button (click)="addDictionaryModal()">
@@ -34,7 +37,7 @@
         Here's a small text description for the card content. Nothing more, nothing less.
       </ion-card-content>
 
-      <ion-button (click)="removeDictionary(dictionary.id)" fill="clear">Törlés</ion-button>
+      <ion-button (click)="deleteDictionary(dictionary.id)" fill="clear">Törlés</ion-button>
     </ion-card>
   </ion-list>
 
