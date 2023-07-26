@@ -4,7 +4,7 @@ import { IonicModule, ModalController } from "@ionic/angular";
 import { DefaultLanguage, Dictionary, Language } from "../../core/model/workbook";
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NewDictionaryModalComponent } from "./new-dictionary/new-collection-modal/new-dictionary-modal.component";
-import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from "rxjs";
+import { combineLatest, debounceTime, distinctUntilChanged, map, startWith, switchMap } from "rxjs";
 import { Storage } from "@ionic/storage-angular";
 import { Store } from "@ngrx/store";
 import { FindDictionariesByLanguagePipe } from "../../pipes/find-dictionaries-by-language.pipe";
@@ -31,13 +31,18 @@ export class DictionaryComponent implements OnInit {
 
   viewModel$ = this.store.select(selectWorkbook);
 
-  filteredDictionaries$ = this.typeaheadControl.valueChanges.pipe(
-    debounceTime(300),
-    distinctUntilChanged(),
-    startWith(this.typeaheadControl.value),
-    switchMap((searchedText) => {
+  filteredDictionaries$ = combineLatest([
+    this.typeaheadControl.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      startWith(this.typeaheadControl.value)),
+    this.currentLanguageControl.valueChanges.pipe(
+      startWith(this.currentLanguageControl.value)),
+  ]).pipe(
+    switchMap(([searchedText, currentLanguage]) => {
       return this.viewModel$.pipe(
-        map((workbook) => workbook.dictionaries.filter((dc) => dc.name.includes(searchedText)))
+        map((workbook) => workbook.dictionaries.filter((dictionary) => dictionary.language.shortName === (currentLanguage as Language).shortName) || []),
+        map((dictionary) => dictionary.filter((dc) => dc.name.includes(searchedText)))
       );
     })
   );

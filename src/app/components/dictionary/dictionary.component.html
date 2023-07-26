@@ -3,7 +3,7 @@
     <ion-title>Header</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content *ngIf="(viewModel$ | async) as workbook">
   <ion-list>
     <ion-item>
       <ion-select class="ion-margin-end"
