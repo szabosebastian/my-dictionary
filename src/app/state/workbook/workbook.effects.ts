@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
-import { from, map, switchMap, take, tap } from "rxjs";
-import { initStorage, initWorkbook, setWorkbook } from "./workbook.actions";
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { take, tap } from "rxjs";
+import { setWorkbook } from "./workbook.actions";
 import { WORKBOOK } from "../../core/model/workbook";
 import { StorageService } from "../../core/services/storage.service";
 
@@ -13,30 +13,30 @@ export class WorkbookEffects {
     private storageService: StorageService
   ) {}
 
-  //TODO from - pipe
-  initStorageAction$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ROOT_EFFECTS_INIT),
-      tap(x => console.log("init storage ngrx")),
-      switchMap(() =>
-        from(this.storageService.initStorage())
-          .pipe(
-            map(x => initStorage())
-          )
-      )),
-  );
+  // //TODO from - pipe
+  // initStorageAction$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(ROOT_EFFECTS_INIT),
+  //     tap(x => console.log("init storage ngrx")),
+  //     switchMap(() =>
+  //       from(this.storageService.initStorage())
+  //         .pipe(
+  //           map(x => initStorage())
+  //         )
+  //     )),
+  // );
 
-  //TODO promise
-  initWorkbookAction$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(initStorage),
-      tap(x => console.log("init workbook ngrx")),
-      switchMap(() =>
-        this.storageService.get(WORKBOOK).then(wb => {
-          return initWorkbook({ workbook: wb });
-        })
-      )),
-  );
+  // //TODO promise
+  // initWorkbookAction$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(initStorage),
+  //     tap(x => console.log("init workbook ngrx")),
+  //     switchMap(() =>
+  //       this.storageService.get(WORKBOOK).then(wb => {
+  //         return initWorkbook({ workbook: wb });
+  //       })
+  //     )),
+  // );
 
   setWorkbookAction$ = createEffect(() =>
     this.actions$.pipe(

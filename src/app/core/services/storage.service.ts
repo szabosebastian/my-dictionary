@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { DefaultLanguage, defaultLanguagesDisplayNames, Language, WORKBOOK, Workbook } from "../model/workbook";
 import { Storage } from "@ionic/storage-angular";
 import { v4 as uuid } from "uuid";
+import { Store } from "@ngrx/store";
+import { setWorkbook } from "../../state/workbook/workbook.actions";
 
 
 @Injectable({
@@ -10,7 +12,8 @@ import { v4 as uuid } from "uuid";
 export class StorageService {
 
   constructor(
-    private storage: Storage
+    private storage: Storage,
+    private store: Store
   ) { }
 
   async initStorage(): Promise<any> {
@@ -38,7 +41,7 @@ export class StorageService {
           texts: []
         }
       );
-      await this.storage.set(WORKBOOK, workbook);
+      await this.store.dispatch(setWorkbook({ workbook: workbook }));
       console.log("Workbook uploaded by mock dictionaries");
     }
     console.log("Storage init end", workbook);

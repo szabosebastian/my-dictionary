@@ -1,24 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule, ModalController } from "@ionic/angular";
-import {
-  DefaultLanguage,
-  defaultLanguagesDisplayNames,
-  Dictionary,
-  Language,
-  Workbook
-} from "../../core/model/workbook";
+import { DefaultLanguage, Dictionary, Language } from "../../core/model/workbook";
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NewDictionaryModalComponent } from "./new-dictionary/new-collection-modal/new-dictionary-modal.component";
-import { Observable } from "rxjs";
+import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from "rxjs";
 import { Storage } from "@ionic/storage-angular";
 import { Store } from "@ngrx/store";
-import { selectWorkbook } from "../../state/workbook/workbook.selector";
 import { FindDictionariesByLanguagePipe } from "../../pipes/find-dictionaries-by-language.pipe";
 import { CurrentLanguagePipe } from "../../pipes/current-language.pipe";
 import { NewLanguageModalComponent } from "../language/new-language-modal/new-language-modal.component";
 import { DictionaryService } from "../../core/services/dictionary.service";
 import { LanguageService } from "../../core/services/language.service";
+import { ActivatedRoute } from "@angular/router";
+import { selectWorkbook } from "../../state/workbook/workbook.selector";
 
 @Component({
   selector: 'app-dictionary',
@@ -29,14 +24,23 @@ import { LanguageService } from "../../core/services/language.service";
 })
 export class DictionaryComponent implements OnInit {
 
-  defaultSelectedLanguage = this.languageService.getLanguage(DefaultLanguage.EN);
+  defaultSelectedLanguage = this.languageService.getLanguage(DefaultLanguage.EN)!;
 
-  currentLanguageControl = new FormControl({
-    shortName: DefaultLanguage.EN,
-    displayName: defaultLanguagesDisplayNames[DefaultLanguage.EN]
-  } as Language, { nonNullable: true });
+  currentLanguageControl = new FormControl(this.defaultSelectedLanguage, { nonNullable: true });
+  typeaheadControl = new FormControl('', { nonNullable: true });
 
-  viewModel$?: Observable<Workbook>;
+  viewModel$ = this.store.select(selectWorkbook);
+
+  filteredDictionaries$ = this.typeaheadControl.valueChanges.pipe(
+    debounceTime(300),
+    distinctUntilChanged(),
+    startWith(this.typeaheadControl.value),
+    switchMap((searchedText) => {
+      return this.viewModel$.pipe(
+        map((workbook) => workbook.dictionaries.filter((dc) => dc.name.includes(searchedText)))
+      );
+    })
+  );
 
   constructor(
     private fb: FormBuilder,
@@ -44,12 +48,11 @@ export class DictionaryComponent implements OnInit {
     private storageService: Storage,
     private store: Store,
     private dictionaryService: DictionaryService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.viewModel$ = this.store.select(selectWorkbook);
-    console.log(this.defaultSelectedLanguage);
   }
 
   async addDictionaryModal() {
@@ -97,6 +100,7 @@ export class DictionaryComponent implements OnInit {
     this.viewModel$?.subscribe(res => {
       console.log("res");
       console.log(res);
+      console.log(this.defaultSelectedLanguage);
     });
   }
 }

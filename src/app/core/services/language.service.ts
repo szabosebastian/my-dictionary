@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map, Observable, take, takeWhile, tap } from "rxjs";
+import { map, Observable, take, tap } from "rxjs";
 import { Language, Workbook } from "../model/workbook";
 import { Store } from "@ngrx/store";
 import { selectWorkbook } from "../../state/workbook/workbook.selector";
@@ -21,8 +21,7 @@ export class LanguageService {
   getLanguage(shortName: string): Language | undefined {
     let result: Language | undefined;
     this.viewModel$?.pipe(
-      takeWhile((res) => res !== undefined),
-      tap(x => console.log("ADD IE")),
+      take(1),
       tap((workbook) => {
         result = workbook.languages.find((language) => language.shortName === shortName);
       })).subscribe();

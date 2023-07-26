@@ -1,4 +1,4 @@
-import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { APP_INITIALIZER, enableProdMode, importProvidersFrom } from '@angular/core';
 
 
 import { environment } from './environments/environment';
@@ -20,9 +20,14 @@ import { EffectsModule } from "@ngrx/effects";
 import { WorkbookEffects } from "./app/state/workbook/workbook.effects";
 import { workbookReducer } from "./app/state/workbook/workbook.reducer";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
+import { StorageService } from "./app/core/services/storage.service";
 
 if (environment.production) {
   enableProdMode();
+}
+
+function proba(storageService: StorageService) {
+  return () => storageService.initStorage();
 }
 
 bootstrapApplication(AppComponent, {
@@ -51,6 +56,12 @@ bootstrapApplication(AppComponent, {
       }),
       EffectsModule.forRoot([WorkbookEffects])
     ),
+    {
+      provide: APP_INITIALIZER,
+      useFactory: proba,
+      deps: [StorageService],
+      multi: true
+    },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ]
 })

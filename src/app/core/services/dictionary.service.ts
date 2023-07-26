@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map, Observable, take, tap } from "rxjs";
+import { map, take, tap } from "rxjs";
 import { Dictionary, Workbook } from "../model/workbook";
 import { selectWorkbook } from "../../state/workbook/workbook.selector";
 import { Store } from "@ngrx/store";
@@ -12,12 +12,11 @@ import { v4 as uuid } from 'uuid';
 })
 export class DictionaryService {
 
-  viewModel$?: Observable<Workbook>;
+  viewModel$ = this.store.select(selectWorkbook);
 
   constructor(
     private store: Store
   ) {
-    this.viewModel$ = this.store.select(selectWorkbook);
   }
 
   addDictionary(newDictionary: Dictionary) {
