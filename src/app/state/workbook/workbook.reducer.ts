@@ -1,4 +1,4 @@
-import { Workbook } from "../../core/model/workbook";
+import { Language, Workbook } from "../../core/model/workbook";
 import { createReducer, on } from "@ngrx/store";
 import { initWorkbook, setWorkbook } from "./workbook.actions";
 
@@ -9,6 +9,7 @@ export interface WorkbookState {
 export const initialState: WorkbookState = {
   workbook: {
     id: "",
+    defaultLanguage: {} as Language,
     languages: [],
     dictionaries: [],
     collections: []

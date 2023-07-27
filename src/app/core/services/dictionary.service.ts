@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { map, take, tap } from "rxjs";
-import { Dictionary, Workbook } from "../model/workbook";
+import { Dictionary, Text, Workbook } from "../model/workbook";
 import { selectWorkbook } from "../../state/workbook/workbook.selector";
 import { Store } from "@ngrx/store";
 import { setWorkbook } from "../../state/workbook/workbook.actions";
@@ -17,6 +17,21 @@ export class DictionaryService {
   constructor(
     private store: Store
   ) {
+  }
+
+  addTextToDictionary(workbook: Workbook, dictionaryId: string, text: Text) {
+    const newWorkbook = this.createNewWorkbookWithAddedAddedTextToDictionary(workbook, dictionaryId, text);
+    this.store.dispatch(setWorkbook({ workbook: newWorkbook }));
+  }
+
+  private createNewWorkbookWithAddedAddedTextToDictionary(workbook: Workbook, dictionaryId: string, text: Text): Workbook {
+    return {
+      ...workbook,
+      dictionaries: [...workbook.dictionaries.map(dictionary => ({
+        ...dictionary,
+        texts: [...dictionary.texts].concat(dictionary.id === dictionaryId ? [text] : [])
+      }))]
+    };
   }
 
   addDictionary(newDictionary: Dictionary) {

@@ -1,12 +1,28 @@
-<ion-content [formGroup]="form">
+<ion-content [formGroup]="form" *ngIf="(workbook$ | async) as workbook">
 
   <ion-list>
     <ion-item>
-      <ion-input label="Default input"></ion-input>
+      <ion-select label="Dictionaries" placeholder="Dictionary" interface="popover"
+                  [formControl]="currentDictionaryControl">
+        <ion-select-option
+          *ngFor="let dictionary of workbook.dictionaries"
+          [value]="dictionary">{{dictionary.name}} - {{dictionary.language.shortName}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Text" formControlName="originalText"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Translated text" formControlName="translatedText"></ion-input>
     </ion-item>
   </ion-list>
 
-  <ion-button (click)="consoleLog()">
+  <ion-button (click)="addTextToDictionary(workbook)">
+    Add to dictionary
+  </ion-button>
+  <ion-button (click)="consoleLog(workbook)">
     Console log
   </ion-button>
 

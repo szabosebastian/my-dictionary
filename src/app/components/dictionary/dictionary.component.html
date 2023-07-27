@@ -7,14 +7,14 @@
   <ion-list>
     <ion-item>
       <ion-select class="ion-margin-end"
-                  [value]="currentLanguageControl.getRawValue().shortName | currentLanguage:  viewModel$| async"
+                  [value]="workbook.defaultLanguage"
                   label="Default label" placeholder="Language"
                   [formControl]="currentLanguageControl">
         <ion-select-option
-          *ngFor="let language of (viewModel$ | async)?.languages"
+          *ngFor="let language of workbook.languages"
           [value]="language">{{language.displayName}}</ion-select-option>
       </ion-select>
-      <ion-button (click)="addLanguageModal()">
+      <ion-button (click)="addLanguageModal(workbook)">
         <ion-icon slot="icon-only" name="add-outline"></ion-icon>
       </ion-button>
       <ion-button (click)="removeLanguage()">

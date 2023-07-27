@@ -25,9 +25,17 @@ export class StorageService {
     console.log("Storage init start", workbook);
 
     if (!workbook) {
-      //todo id
-      workbook = { id: '', languages: [], dictionaries: [], collections: [] } as Workbook;
+
+      workbook = {
+        id: uuid(),
+        defaultLanguage: {} as Language,
+        languages: [],
+        dictionaries: [],
+        collections: []
+      } as Workbook;
+
       this.createDefaultLanguages(workbook);
+      //todo kivenni
       workbook.dictionaries.push(
         {
           name: "teszt",
@@ -41,6 +49,7 @@ export class StorageService {
           texts: []
         }
       );
+      this.setDefaultLanguage(workbook);
       await this.store.dispatch(setWorkbook({ workbook: workbook }));
       console.log("Workbook uploaded by mock dictionaries");
     }
@@ -56,6 +65,10 @@ export class StorageService {
         displayName: defaultLanguagesDisplayNames[DefaultLanguage[key as keyof typeof DefaultLanguage]]
       } as Language);
     });
+  }
+
+  setDefaultLanguage(workbook: Workbook): void {
+    workbook.defaultLanguage = workbook.languages[0];
   }
 
   set(key: string, value: any): void {

@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from "@ionic/angular";
 import { WorkbookService } from "../../core/services/workbook.service";
-import { Workbook } from "../../core/model/workbook";
-import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
+import { Dictionary, Text, Workbook } from "../../core/model/workbook";
+import { FormBuilder, FormControl, ReactiveFormsModule } from "@angular/forms";
+import { Store } from "@ngrx/store";
+import { selectWorkbook } from "../../state/workbook/workbook.selector";
+import { Observable } from "rxjs";
+import { DictionaryService } from "../../core/services/dictionary.service";
 
 @Component({
   selector: 'app-translate',
@@ -12,24 +16,34 @@ import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
   templateUrl: './translate.component.html',
   styleUrls: ['./translate.component.scss']
 })
-export class TranslateComponent implements OnInit {
+export class TranslateComponent {
+
+  currentDictionaryControl = new FormControl({} as Dictionary, { nonNullable: true });
 
   form = this.fb.group({
-    language: this.fb.nonNullable.control(''),
-    originalWord: this.fb.nonNullable.control(''),
+    originalText: this.fb.nonNullable.control(''),
+    translatedText: this.fb.nonNullable.control(''),
   });
-  workbook?: Workbook;
+
+  workbook$: Observable<Workbook> = this.store.select(selectWorkbook);
 
   constructor(
     private workbookService: WorkbookService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private store: Store,
+    private dictionaryService: DictionaryService
   ) {}
 
-  ngOnInit(): void {
-    // this.workbookService.getWorkbook().then(wb => this.workbook = wb);
+  addTextToDictionary(workbook: Workbook) {
+    const dictionaryId = this.currentDictionaryControl.getRawValue().id;
+    const text = this.form.getRawValue() as Text;
+    console.log(text);
+    this.dictionaryService.addTextToDictionary(workbook, dictionaryId, text);
   }
 
-  consoleLog() {
+  consoleLog(workbook: Workbook) {
+    console.log(this.currentDictionaryControl.getRawValue());
     console.log(this.form.getRawValue());
+    console.log(workbook);
   }
 }

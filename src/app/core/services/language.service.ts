@@ -18,22 +18,21 @@ export class LanguageService {
     this.viewModel$ = this.store.select(selectWorkbook);
   }
 
-  getLanguage(shortName: string): Language | undefined {
-    let result: Language | undefined;
+  getDefaultLanguage(): Language {
+    let defaultLanguage: Language;
     this.viewModel$?.pipe(
       take(1),
-      tap((workbook) => {
-        result = workbook.languages.find((language) => language.shortName === shortName);
-      })).subscribe();
-    return result;
+    ).subscribe(
+      (res) => {
+        defaultLanguage = res.defaultLanguage;
+      }
+    );
+    return defaultLanguage!;
   }
 
-  addLanguage(language: Language) {
-    this.viewModel$?.pipe(
-      take(1),
-      map(workbook => this.createNewWorkbookWithAddedLanguage(workbook, language)),
-      tap((workbook) => this.store.dispatch(setWorkbook({ workbook: workbook })))
-    ).subscribe();
+  addLanguage(language: Language, workbook: Workbook) {
+    const newWorkbook = this.createNewWorkbookWithAddedLanguage(workbook, language);
+    this.store.dispatch(setWorkbook({ workbook: newWorkbook }));
   }
 
   private createNewWorkbookWithAddedLanguage(workbook: Workbook, language: Language): Workbook {

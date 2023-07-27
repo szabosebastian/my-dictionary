@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule, ModalController } from "@ionic/angular";
-import { DefaultLanguage, Dictionary, Language } from "../../core/model/workbook";
+import { Dictionary, Language, Workbook } from "../../core/model/workbook";
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NewDictionaryModalComponent } from "./new-dictionary/new-collection-modal/new-dictionary-modal.component";
 import { combineLatest, debounceTime, distinctUntilChanged, map, startWith, switchMap } from "rxjs";
@@ -24,7 +24,7 @@ import { selectWorkbook } from "../../state/workbook/workbook.selector";
 })
 export class DictionaryComponent implements OnInit {
 
-  defaultSelectedLanguage = this.languageService.getLanguage(DefaultLanguage.EN)!;
+  defaultSelectedLanguage = this.languageService.getDefaultLanguage();
 
   currentLanguageControl = new FormControl(this.defaultSelectedLanguage, { nonNullable: true });
   typeaheadControl = new FormControl('', { nonNullable: true });
@@ -76,7 +76,7 @@ export class DictionaryComponent implements OnInit {
     }
   }
 
-  async addLanguageModal() {
+  async addLanguageModal(workbook: Workbook) {
     const modal = await this.modalCtrl.create({
       component: NewLanguageModalComponent,
     });
@@ -87,7 +87,7 @@ export class DictionaryComponent implements OnInit {
 
     if (role === 'confirm') {
       const language = data as Language;
-      this.languageService.addLanguage(language);
+      this.languageService.addLanguage(language, workbook);
     }
   }
 
@@ -101,7 +101,7 @@ export class DictionaryComponent implements OnInit {
   }
 
   consoleLog() {
-    console.log(this.currentLanguageControl);
+    console.log(this.currentLanguageControl.getRawValue());
     this.viewModel$?.subscribe(res => {
       console.log("res");
       console.log(res);

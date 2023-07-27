@@ -2,6 +2,7 @@ export const WORKBOOK = "workbook";
 
 export interface Workbook {
   id: string;
+  defaultLanguage: Language,
   languages: Language[],
   collections: Collection[];
   dictionaries: Dictionary[];
