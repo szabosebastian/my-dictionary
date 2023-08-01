@@ -16,6 +16,7 @@ export interface Collection {
 export interface Dictionary {
   id: string;
   name: string;
+  default: boolean;
   language: Language;
   textLimit: number;
   texts: Text[];

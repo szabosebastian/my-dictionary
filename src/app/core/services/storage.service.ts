@@ -40,6 +40,7 @@ export class StorageService {
         {
           name: "teszt",
           id: '1',
+          default: true,
           language: {
             id: uuid(),
             shortName: DefaultLanguage.EN,
@@ -50,7 +51,7 @@ export class StorageService {
         }
       );
       this.setDefaultLanguage(workbook);
-      await this.store.dispatch(setWorkbook({ workbook: workbook }));
+      this.store.dispatch(setWorkbook({ workbook: workbook }));
       console.log("Workbook uploaded by mock dictionaries");
     }
     console.log("Storage init end", workbook);

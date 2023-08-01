@@ -19,6 +19,18 @@ export class DictionaryService {
   ) {
   }
 
+  getDefaultDictionary(): Dictionary {
+    let defaultDictionary: Dictionary;
+    this.viewModel$?.pipe(
+      take(1),
+    ).subscribe(
+      (res) => {
+        defaultDictionary = res.dictionaries.find(dictionary => dictionary.default) || {} as Dictionary;
+      }
+    );
+    return defaultDictionary!;
+  }
+
   addTextToDictionary(workbook: Workbook, dictionaryId: string, text: Text) {
     const newWorkbook = this.createNewWorkbookWithAddedAddedTextToDictionary(workbook, dictionaryId, text);
     this.store.dispatch(setWorkbook({ workbook: newWorkbook }));
@@ -36,6 +48,7 @@ export class DictionaryService {
 
   addDictionary(newDictionary: Dictionary) {
     newDictionary.id = uuid();
+    newDictionary.texts = [];
 
     this.viewModel$?.pipe(
       take(1),
