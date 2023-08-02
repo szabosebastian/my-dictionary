@@ -14,11 +14,12 @@ import { DictionaryService } from "../../core/services/dictionary.service";
 import { LanguageService } from "../../core/services/language.service";
 import { ActivatedRoute } from "@angular/router";
 import { selectWorkbook } from "../../state/workbook/workbook.selector";
+import { SortLanguagesPipe } from "../../pipes/sort-languages.pipe";
 
 @Component({
   selector: 'app-dictionary',
   standalone: true,
-  imports: [CommonModule, IonicModule, ReactiveFormsModule, FormsModule, FindDictionariesByLanguagePipe, CurrentLanguagePipe],
+  imports: [CommonModule, IonicModule, ReactiveFormsModule, FormsModule, FindDictionariesByLanguagePipe, CurrentLanguagePipe, SortLanguagesPipe],
   templateUrl: './dictionary.component.html',
   styleUrls: ['./dictionary.component.scss']
 })

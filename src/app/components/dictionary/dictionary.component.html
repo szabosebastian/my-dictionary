@@ -11,7 +11,7 @@
                   label="Default label" placeholder="Language"
                   [formControl]="currentLanguageControl">
         <ion-select-option
-          *ngFor="let language of workbook.languages"
+          *ngFor="let language of (workbook.languages | sortLanguages)"
           [value]="language">{{language.displayName}}</ion-select-option>
       </ion-select>
       <ion-button (click)="addLanguageModal(workbook)">
