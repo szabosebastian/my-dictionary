@@ -3,7 +3,7 @@
   <ion-list>
     <ion-item>
       <ion-select label="Dictionaries" placeholder="Dictionary" interface="popover"
-                  [formControl]="currentDictionaryControl">
+                  [formControl]="currentDictionaryControl" [compareWith]="compareIds">
         <ion-select-option
           *ngFor="let dictionary of workbook.dictionaries"
           [value]="dictionary">{{dictionary.name}} - {{dictionary.language.shortName}}</ion-select-option>

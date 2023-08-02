@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from "@ionic/angular";
-import { Text, Workbook } from "../../core/model/workbook";
+import { Dictionary, Text, Workbook } from "../../core/model/workbook";
 import { FormBuilder, FormControl, ReactiveFormsModule } from "@angular/forms";
 import { Store } from "@ngrx/store";
 import { selectWorkbook } from "../../state/workbook/workbook.selector";
-import { Observable } from "rxjs";
+import { Observable, tap } from "rxjs";
 import { DictionaryService } from "../../core/services/dictionary.service";
 import { FindTextsByDictionaryPipe } from "../../pipes/find-texts-by-dictionary.pipe";
 
@@ -27,7 +27,9 @@ export class TranslateComponent {
     translatedText: this.fb.nonNullable.control(''),
   });
 
-  workbook$: Observable<Workbook> = this.store.select(selectWorkbook);
+  workbook$: Observable<Workbook> = this.store.select(selectWorkbook).pipe(tap(console.log));
+
+  compareIds = (a: Dictionary, b: Dictionary) => a.id === b.id;
 
   constructor(
     private fb: FormBuilder,
