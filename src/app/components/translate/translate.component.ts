@@ -42,7 +42,9 @@ export class TranslateComponent {
   addTextToDictionary(workbook: Workbook) {
     const dictionaryId = this.currentDictionaryControl.getRawValue().id;
     const text = this.form.getRawValue() as Text;
-    this.dictionaryService.addTextToDictionary(workbook, dictionaryId, text);
+    if (text.translatedText && text.originalText) {
+      this.dictionaryService.addTextToDictionary(workbook, dictionaryId, text);
+    }
   }
 
   async confirm(dictionaries: Dictionary[]) {
