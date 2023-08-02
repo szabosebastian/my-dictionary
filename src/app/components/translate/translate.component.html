@@ -1,14 +1,24 @@
 <ion-content [formGroup]="form" *ngIf="(workbook$ | async) as workbook">
 
   <ion-list>
-    <ion-item>
-      <ion-select label="Dictionaries" placeholder="Dictionary" interface="popover"
-                  [formControl]="currentDictionaryControl" [compareWith]="compareIds">
-        <ion-select-option
-          *ngFor="let dictionary of workbook.dictionaries"
-          [value]="dictionary">{{dictionary.name}} - {{dictionary.language.shortName}}</ion-select-option>
-      </ion-select>
-    </ion-item>
+
+    <ion-list [inset]="true">
+      <ion-item [button]="true" [detail]="false" id="select-fruits">
+        <ion-label>Dictionary:</ion-label>
+        <div slot="end" (click)="confirm(workbook.dictionaries)">{{ currentDictionaryControl.getRawValue().name }}
+          - {{ currentDictionaryControl.getRawValue().language.shortName }}</div>
+      </ion-item>
+    </ion-list>
+
+    <!-- TODO még jól jöhet (compareWith) -->
+    <!--    <ion-item>-->
+    <!--      <ion-select label="Dictionaries" placeholder="Dictionary" interface="popover"-->
+    <!--                  [formControl]="currentDictionaryControl" [compareWith]="compareIds">-->
+    <!--        <ion-select-option-->
+    <!--          *ngFor="let dictionary of workbook.dictionaries"-->
+    <!--          [value]="dictionary">{{dictionary.name}} - {{dictionary.language.shortName}}</ion-select-option>-->
+    <!--      </ion-select>-->
+    <!--    </ion-item>-->
 
     <ion-item>
       <ion-input label="Text" formControlName="originalText"></ion-input>
@@ -29,5 +39,6 @@
   <ion-item *ngFor="let text of (workbook | findTextsByDictionary: currentDictionaryControl.getRawValue())">
     {{text.originalText}} - {{text.translatedText}}
   </ion-item>
+
 
 </ion-content>
