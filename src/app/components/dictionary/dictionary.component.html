@@ -1,53 +1,48 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Header</ion-title>
-  </ion-toolbar>
-</ion-header>
 <ion-content *ngIf="(viewModel$ | async) as workbook">
-  <ion-list>
-    <ion-item>
-      <ion-select class="ion-margin-end"
-                  [value]="workbook.defaultLanguage"
-                  label="Default label" placeholder="Language"
-                  [formControl]="currentLanguageControl">
-        <ion-select-option
-          *ngFor="let language of (workbook.languages | sortLanguages)"
-          [value]="language">{{language.displayName}}</ion-select-option>
-      </ion-select>
-      <ion-button (click)="addLanguageModal(workbook)">
-        <ion-icon slot="icon-only" name="add-outline"></ion-icon>
-      </ion-button>
-      <ion-button (click)="removeLanguage()">
-        <ion-icon slot="icon-only" name="remove-outline"></ion-icon>
-      </ion-button>
-    </ion-item>
+    <ion-list class="ion-margin-horizontal">
+        <div class="d-flex gap-3">
+            <ion-item lines="none" class="search-item" color="medium">
+                <ion-input [formControl]="typeaheadControl" placeholder="Type dictionary name...">
+                </ion-input>
+            </ion-item>
 
-    <ion-item>
-      <ion-input [formControl]="typeaheadControl" label="Keresés">
+            <ion-item lines="none" color="medium" class="proba ion-justify-content-center">
+                <ion-select [formControl]="currentLanguageControl">
+                    <ion-select-option
+                            *ngFor="let language of (workbook.languages | sortLanguages)"
+                            [value]="language">{{language.shortName}} - {{language.displayName}}</ion-select-option>
+                </ion-select>
+            </ion-item>
+        </div>
 
-      </ion-input>
-    </ion-item>
+        <ion-button (click)="addDictionaryModal()">
+            Add dictionary
+        </ion-button>
 
-    <ion-button (click)="addDictionaryModal()">
-      Add dictionary
-    </ion-button>
+        <ion-button (click)="consoleLog()">
+            Console log
+        </ion-button>
 
-    <ion-button (click)="consoleLog()">
-      Console log
-    </ion-button>
+        <ion-card
+                *ngFor="let dictionary of filteredDictionaries$  | async">
+            <ion-card-header>
+                <ion-card-title>{{dictionary.name}}</ion-card-title>
+                <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+            </ion-card-header>
 
-    <ion-card
-      *ngFor="let dictionary of filteredDictionaries$  | async">
-      <ion-card-header>
-        <ion-card-title>{{dictionary.name}}</ion-card-title>
-        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-      </ion-card-header>
+            <ion-card-content>
+                Here's a small text description for the card content. Nothing more, nothing less.
+            </ion-card-content>
 
-      <ion-card-content>
-        Here's a small text description for the card content. Nothing more, nothing less.
-      </ion-card-content>
+            <ion-button (click)="deleteDictionary(dictionary.id)" fill="clear">Törlés</ion-button>
+        </ion-card>
+    </ion-list>
 
-      <ion-button (click)="deleteDictionary(dictionary.id)" fill="clear">Törlés</ion-button>
-    </ion-card>
-  </ion-list>
+
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end" class="ion-margin-end ion-margin-bottom">
+        <ion-fab-button (click)="addDictionaryModal()">
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+
 </ion-content>

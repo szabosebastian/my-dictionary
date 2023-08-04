@@ -1,0 +1,22 @@
+.search-item {
+  width: 70%;
+}
+
+.proba {
+  width: 25%;
+  align-content: center;
+  align-self: center;
+}
+
+ion-item::part(native) {
+  //margin-outside: 2px;
+  background: #7a7a7a;
+  text-align: left;
+
+  border-color: #fff;
+  border-width: 1px;
+
+  border-radius: 10px;
+
+  --inner-padding-end: 0px;
+}
