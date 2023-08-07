@@ -22,6 +22,17 @@
                 <ion-input label="Text limit:" formControlName="textLimit"></ion-input>
             </ion-item>
 
+            <ion-item>
+                <ion-textarea label="Description:" formControlName="description"></ion-textarea>
+            </ion-item>
+
+            <ion-item>
+                <ion-checkbox labelPlacement="start" formControlName="default"
+                              (ionChange)="changeCheckbox($event, workbook.dictionaries)">
+                    Default:
+                </ion-checkbox>
+            </ion-item>
+
             <div class="ion-margin-top flex-container">
                 <ion-button (click)="confirm()">
                     Create dictionary

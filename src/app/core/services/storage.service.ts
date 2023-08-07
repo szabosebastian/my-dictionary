@@ -41,10 +41,37 @@ export class StorageService {
           name: "teszt",
           id: '1',
           default: true,
+          description: "This is a desctiption to bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla ",
           language: {
             id: uuid(),
-            shortName: DefaultLanguage.EN,
-            displayName: defaultLanguagesDisplayNames[DefaultLanguage.EN]
+            shortName: DefaultLanguage.BG,
+            displayName: defaultLanguagesDisplayNames[DefaultLanguage.BG]
+          },
+          textLimit: 10,
+          texts: []
+        },
+        {
+          name: "asd",
+          id: '2',
+          description: "This is a desctiption to bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla ",
+          default: false,
+          language: {
+            id: uuid(),
+            shortName: DefaultLanguage.BG,
+            displayName: defaultLanguagesDisplayNames[DefaultLanguage.BG]
+          },
+          textLimit: 10,
+          texts: []
+        },
+        {
+          name: "kekke5464545654456645645645646546456456r",
+          id: '3',
+          description: "This is a desctiption to bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla ",
+          default: false,
+          language: {
+            id: uuid(),
+            shortName: DefaultLanguage.BG,
+            displayName: defaultLanguagesDisplayNames[DefaultLanguage.BG]
           },
           textLimit: 10,
           texts: []

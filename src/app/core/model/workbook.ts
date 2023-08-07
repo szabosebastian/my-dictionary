@@ -18,6 +18,7 @@ export interface Dictionary {
   name: string;
   default: boolean;
   language: Language;
+  description: string;
   textLimit: number;
   texts: Text[];
 }

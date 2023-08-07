@@ -1,15 +1,17 @@
 .search-item {
-  width: 70%;
+  max-width: 70%;
+  min-width: 70%;
 }
 
-.proba {
-  width: 25%;
-  align-content: center;
-  align-self: center;
+.search-bar {
+  opacity: 0.5;
+}
+
+ion-toolbar {
+  --min-height: 0rem !important;
 }
 
 ion-item::part(native) {
-  //margin-outside: 2px;
   background: #7a7a7a;
   text-align: left;
 

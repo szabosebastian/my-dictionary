@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule, ModalController } from "@ionic/angular";
+import { AlertController, IonicModule, ModalController } from "@ionic/angular";
 import { Dictionary, Language } from "../../core/model/workbook";
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NewDictionaryModalComponent } from "./new-dictionary/new-collection-modal/new-dictionary-modal.component";
@@ -49,18 +49,20 @@ export class DictionaryComponent implements OnInit {
     private modalCtrl: ModalController,
     private store: Store,
     private dictionaryService: DictionaryService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private alertCtrl: AlertController
   ) {}
 
   ngOnInit(): void {
   }
 
-  async addDictionaryModal() {
+  async addDictionaryModal(dictionary?: Dictionary) {
     const modal = await this.modalCtrl.create({
       component: NewDictionaryModalComponent,
       id: 'alert-modal',
       componentProps: {
-        selectedLanguage: this.currentLanguageControl.getRawValue()
+        selectedLanguage: this.currentLanguageControl.getRawValue(),
+        dictionary
       }
     });
 
@@ -73,6 +75,26 @@ export class DictionaryComponent implements OnInit {
       console.log(dictionary);
       this.dictionaryService.addDictionary(dictionary);
     }
+  }
+
+  async confirmDelete(dictionaryId: string) {
+    const alert = await this.alertCtrl.create({
+      message: 'Do you confirm to delete?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.deleteDictionary(dictionaryId);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   deleteDictionary(id: string) {

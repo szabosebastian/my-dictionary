@@ -76,6 +76,13 @@
   --ion-color-light-tint: #f5f6f9;
 }
 
+@media (prefers-color-scheme: light) {
+
+  body {
+    --ion-toolbar-background: #fff;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   /*
    * Dark Colors
@@ -145,6 +152,9 @@
     --ion-color-light-contrast-rgb: 255, 255, 255;
     --ion-color-light-shade: #1e2023;
     --ion-color-light-tint: #383a3e;
+
+    --ion-toolbar-background: #000000;
+
   }
 
   /*
@@ -203,6 +213,7 @@
     --ion-text-color: #ffffff;
     --ion-text-color-rgb: 255, 255, 255;
 
+
     --ion-border-color: #222222;
 
     --ion-color-step-50: #1e1e1e;
@@ -226,8 +237,6 @@
     --ion-color-step-950: #f3f3f3;
 
     --ion-item-background: #1e1e1e;
-
-    --ion-toolbar-background: #1f1f1f;
 
     --ion-tab-bar-background: #1f1f1f;
 
