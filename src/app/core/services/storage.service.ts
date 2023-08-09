@@ -40,7 +40,7 @@ export class StorageService {
         {
           name: "teszt",
           id: '1',
-          default: true,
+          default: false,
           description: "This is a desctiption to bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla ",
           language: {
             id: uuid(),

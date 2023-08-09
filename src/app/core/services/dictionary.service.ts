@@ -19,16 +19,17 @@ export class DictionaryService {
   ) {
   }
 
-  getDefaultDictionary(): Dictionary {
-    let defaultDictionary: Dictionary;
+  getDefaultDictionary(): Dictionary | undefined {
+    let defaultDictionary: Dictionary | undefined;
     this.viewModel$?.pipe(
       take(1),
     ).subscribe(
       (res) => {
-        defaultDictionary = res.dictionaries.find(dictionary => dictionary.default) || {} as Dictionary;
+        console.log(res.dictionaries);
+        defaultDictionary = res.dictionaries.find(dictionary => dictionary.default) || undefined;
       }
     );
-    return defaultDictionary!;
+    return defaultDictionary;
   }
 
   addTextToDictionary(workbook: Workbook, dictionaryId: string, text: Text) {

@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule, ModalController } from "@ionic/angular";
+import { AlertController, IonicModule, ModalController, NavController, ViewDidEnter } from "@ionic/angular";
 import { Dictionary, Text, Workbook } from "../../core/model/workbook";
 import { FormBuilder, FormControl, ReactiveFormsModule } from "@angular/forms";
 import { Store } from "@ngrx/store";
@@ -17,10 +17,8 @@ import { DictionaryTypeaheadComponent } from "../dictionary/typeahead/dictionary
   templateUrl: './translate.component.html',
   styleUrls: ['./translate.component.scss']
 })
-export class TranslateComponent {
-  defaultSelectedDictionary = this.dictionaryService.getDefaultDictionary();
-
-  currentDictionaryControl = new FormControl(this.defaultSelectedDictionary, { nonNullable: true });
+export class TranslateComponent implements OnInit, ViewDidEnter {
+  currentDictionaryControl = new FormControl({} as Dictionary, { nonNullable: true });
 
   form = this.fb.group({
     originalText: this.fb.nonNullable.control(''),
@@ -36,11 +34,43 @@ export class TranslateComponent {
     private fb: FormBuilder,
     private store: Store,
     private dictionaryService: DictionaryService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private alertCtrl: AlertController,
+    private navController: NavController
   ) {}
 
+  ngOnInit(): void {
+
+  }
+
+  ionViewDidEnter(): void {
+    const defaultDicionary = this.dictionaryService.getDefaultDictionary();
+
+    if (!defaultDicionary) {
+      this.presentAlert();
+    }
+
+    this.currentDictionaryControl.patchValue(defaultDicionary!);
+  }
+
+  async presentAlert() {
+    const alert = await this.alertCtrl.create({
+      message: 'Please create dictionary.',
+      buttons: [
+        {
+          text: 'Create dictionary',
+          handler: () => {
+            this.navController.navigateRoot("/collection");
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
   addTextToDictionary(workbook: Workbook) {
-    const dictionaryId = this.currentDictionaryControl.getRawValue().id;
+    const dictionaryId = this.currentDictionaryControl.getRawValue()!.id;
     const text = this.form.getRawValue() as Text;
     if (text.translatedText && text.originalText) {
       this.dictionaryService.addTextToDictionary(workbook, dictionaryId, text);

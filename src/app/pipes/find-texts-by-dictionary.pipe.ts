@@ -7,7 +7,10 @@ import { Dictionary, Text, Workbook } from "../core/model/workbook";
 })
 export class FindTextsByDictionaryPipe implements PipeTransform {
 
-  transform(workbook: Workbook, dictionary: Dictionary): Text[] {
+  transform(workbook: Workbook, dictionary?: Dictionary): Text[] {
+    if (!dictionary) {
+      return [];
+    }
     return workbook.dictionaries.find(d => d.id === dictionary.id)?.texts || [];
   }
 

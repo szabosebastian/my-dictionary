@@ -1,0 +1,52 @@
+<ion-toolbar *ngIf="(viewModel$ | async) as workbook" class="ion-padding-horizontal">
+  <div class="d-flex gap-3 search-bar">
+    <ion-item lines="none" class="search-item" color="medium">
+      <ion-input [formControl]="typeaheadControl" placeholder="Type dictionary name...">
+      </ion-input>
+    </ion-item>
+
+    <ion-item lines="none" color="medium">
+      <ion-select [formControl]="currentLanguageControl">
+        <ion-select-option
+          *ngFor="let language of (workbook.languages | sortLanguages)"
+          [value]="language">{{language.shortName}} - {{language.displayName}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </div>
+</ion-toolbar>
+<ion-content *ngIf="(viewModel$ | async) as workbook">
+  <ion-list class="ion-margin-horizontal">
+    <ion-card
+      *ngFor="let dictionary of filteredDictionaries$  | async" (click)="openDictionaryModal(dictionary)">
+      <ion-card-header>
+        <div class="d-flex">
+          <div class="search-item">
+            <ion-card-title>{{dictionary.name}}</ion-card-title>
+          </div>
+          <div class="d-flex flex-row">
+            <ion-button fill="clear" size="small" class="ion-no-margin"
+                        (click)="addDictionaryModal(dictionary)">
+              <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
+            </ion-button>
+            <ion-button fill="clear" size="small" color="danger" class="ion-no-margin"
+                        (click)="confirmDelete(dictionary.id)">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        {{dictionary.description}}
+      </ion-card-content>
+
+    </ion-card>
+  </ion-list>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" class="ion-margin-end ion-margin-bottom">
+    <ion-fab-button (click)="addDictionaryModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

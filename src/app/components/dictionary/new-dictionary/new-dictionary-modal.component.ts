@@ -2,11 +2,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AlertController, IonicModule, ModalController } from "@ionic/angular";
 import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
-import { Dictionary, Language } from "../../../../core/model/workbook";
-import { selectWorkbook } from "../../../../state/workbook/workbook.selector";
+import { Dictionary, Language } from "../../../core/model/workbook";
+import { selectWorkbook } from "../../../state/workbook/workbook.selector";
 import { Store } from "@ngrx/store";
-import { SortLanguagesPipe } from "../../../../pipes/sort-languages.pipe";
+import { SortLanguagesPipe } from "../../../pipes/sort-languages.pipe";
 import { v4 as uuid } from "uuid";
+import { DictionaryService } from "../../../core/services/dictionary.service";
 
 @Component({
   selector: 'app-new-dictionary-modal',
@@ -38,25 +39,28 @@ export class NewDictionaryModalComponent implements OnInit {
     private modalCtrl: ModalController,
     private fb: FormBuilder,
     private store: Store,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private dictionaryService: DictionaryService
   ) {
   }
 
-  async presentAlert() {
+  async presentAlert(dictionary: Dictionary) {
     const alert = await this.alertController.create({
-      header: 'Alert',
-      subHeader: 'Important message',
-      message: 'This is an alert!',
+      header: "Default dictionary already exists!",
+      message: `Dictionary: ${dictionary.name}`,
       buttons: ['OK'],
     });
 
     await alert.present();
   }
 
-  changeCheckbox(event: Event, dictionaries: Dictionary[]) {
+  changeCheckbox(event: Event) {
     if ((event as CustomEvent).detail.checked) {
-      if()
-      this.presentAlert();
+      const defaultDictionary = this.dictionaryService.getDefaultDictionary();
+      if (defaultDictionary) {
+        this.presentAlert(defaultDictionary);
+        this.form.controls.default.patchValue(false);
+      }
     }
   }
 

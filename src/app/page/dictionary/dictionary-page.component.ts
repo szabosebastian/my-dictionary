@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AlertController, IonicModule, ModalController } from "@ionic/angular";
+import { ActionSheetController, AlertController, IonicModule, ModalController } from "@ionic/angular";
 import { Dictionary, Language } from "../../core/model/workbook";
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NewDictionaryModalComponent } from "./new-dictionary/new-collection-modal/new-dictionary-modal.component";
+import { NewDictionaryModalComponent } from "../../components/dictionary/new-dictionary/new-dictionary-modal.component";
 import { combineLatest, debounceTime, distinctUntilChanged, map, startWith, switchMap } from "rxjs";
 import { Store } from "@ngrx/store";
 import { FindDictionariesByLanguagePipe } from "../../pipes/find-dictionaries-by-language.pipe";
@@ -12,15 +12,16 @@ import { DictionaryService } from "../../core/services/dictionary.service";
 import { LanguageService } from "../../core/services/language.service";
 import { selectWorkbook } from "../../state/workbook/workbook.selector";
 import { SortLanguagesPipe } from "../../pipes/sort-languages.pipe";
+import { DictionaryComponent } from "../../components/dictionary/dictionary/dictionary.component";
 
 @Component({
   selector: 'app-dictionary',
   standalone: true,
   imports: [CommonModule, IonicModule, ReactiveFormsModule, FormsModule, FindDictionariesByLanguagePipe, CurrentLanguagePipe, SortLanguagesPipe],
-  templateUrl: './dictionary.component.html',
-  styleUrls: ['./dictionary.component.scss']
+  templateUrl: './dictionary-page.component.html',
+  styleUrls: ['./dictionary-page.component.scss']
 })
-export class DictionaryComponent implements OnInit {
+export class DictionaryPageComponent implements OnInit {
 
   defaultSelectedLanguage = this.languageService.getDefaultLanguage();
 
@@ -50,7 +51,8 @@ export class DictionaryComponent implements OnInit {
     private store: Store,
     private dictionaryService: DictionaryService,
     private languageService: LanguageService,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private actionSheetController: ActionSheetController
   ) {}
 
   ngOnInit(): void {
@@ -78,8 +80,8 @@ export class DictionaryComponent implements OnInit {
   }
 
   async confirmDelete(dictionaryId: string) {
-    const alert = await this.alertCtrl.create({
-      message: 'Do you confirm to delete?',
+    const alert = await this.actionSheetController.create({
+      header: 'Do you confirm to delete?',
       buttons: [
         {
           text: 'Cancel',
@@ -101,12 +103,20 @@ export class DictionaryComponent implements OnInit {
     this.dictionaryService.deleteDictionary(id);
   }
 
-  consoleLog() {
-    console.log(this.currentLanguageControl.getRawValue());
-    this.viewModel$?.subscribe(res => {
-      console.log("res");
-      console.log(res);
-      console.log(this.defaultSelectedLanguage);
+  async openDictionaryModal(dictionary: Dictionary) {
+    const modal = await this.modalCtrl.create({
+      component: DictionaryComponent,
+      componentProps: {
+        dictionary
+      }
     });
+
+    await modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+    }
   }
+
 }

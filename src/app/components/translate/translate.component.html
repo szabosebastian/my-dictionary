@@ -5,8 +5,8 @@
     <ion-list [inset]="true">
       <ion-item [button]="true" [detail]="false" id="select-fruits">
         <ion-label>Dictionary:</ion-label>
-        <div slot="end" (click)="confirm(workbook.dictionaries)">{{ currentDictionaryControl.getRawValue().name }}
-          - {{ currentDictionaryControl.getRawValue().language.shortName }}</div>
+        <div slot="end" (click)="confirm(workbook.dictionaries)">{{ currentDictionaryControl?.getRawValue()?.name }}
+          - {{ currentDictionaryControl.getRawValue()?.language?.shortName }}</div>
       </ion-item>
     </ion-list>
 
@@ -36,7 +36,7 @@
     Console log
   </ion-button>
 
-  <ion-item *ngFor="let text of (workbook | findTextsByDictionary: currentDictionaryControl.getRawValue())">
+  <ion-item *ngFor="let text of (workbook | findTextsByDictionary: currentDictionaryControl?.getRawValue())">
     {{text.originalText}} - {{text.translatedText}}
   </ion-item>
 
