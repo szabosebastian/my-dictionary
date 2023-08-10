@@ -98,7 +98,7 @@ export class DictionaryComponent implements OnInit {
   changeCheckbox(event: Event) {
     if ((event as CustomEvent).detail.checked) {
       const defaultDictionary = this.dictionaryService.getDefaultDictionary();
-      if (defaultDictionary) {
+      if (defaultDictionary && defaultDictionary.id != this.dictionary.id) {
         this.presentAlert(defaultDictionary);
         this.form.controls.default.patchValue(false);
       }

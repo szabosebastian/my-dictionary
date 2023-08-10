@@ -19,21 +19,7 @@
     <ion-card
       *ngFor="let dictionary of filteredDictionaries$  | async" (click)="openDictionaryModal(dictionary)">
       <ion-card-header>
-        <div class="d-flex">
-          <div class="search-item">
-            <ion-card-title>{{dictionary.name}}</ion-card-title>
-          </div>
-          <div class="d-flex flex-row">
-            <ion-button fill="clear" size="small" class="ion-no-margin"
-                        (click)="addDictionaryModal(dictionary)">
-              <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
-            </ion-button>
-            <ion-button fill="clear" size="small" color="danger" class="ion-no-margin"
-                        (click)="confirmDelete(dictionary.id)">
-              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-            </ion-button>
-          </div>
-        </div>
+        <ion-card-title>{{dictionary.name}}</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
