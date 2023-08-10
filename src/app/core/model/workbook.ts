@@ -24,6 +24,7 @@ export interface Dictionary {
 }
 
 export interface Text {
+  id: string;
   originalText: string;
   translatedText: string;
 }

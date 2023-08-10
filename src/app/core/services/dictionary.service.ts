@@ -32,18 +32,55 @@ export class DictionaryService {
     return defaultDictionary;
   }
 
-  addTextToDictionary(workbook: Workbook, dictionaryId: string, text: Text) {
-    const newWorkbook = this.createNewWorkbookWithAddedAddedTextToDictionary(workbook, dictionaryId, text);
+  removeTextFromDictionary(workbook: Workbook, dictionaryId: string, textId: string) {
+    const newWorkbook = this.createNewWorkbookWithRemovedTextFromDictionary(workbook, dictionaryId, textId);
     this.store.dispatch(setWorkbook({ workbook: newWorkbook }));
   }
 
-  private createNewWorkbookWithAddedAddedTextToDictionary(workbook: Workbook, dictionaryId: string, text: Text): Workbook {
+  private createNewWorkbookWithRemovedTextFromDictionary(workbook: Workbook, dictionaryId: string, textId: string): Workbook {
+    return {
+      ...workbook,
+      dictionaries: [...workbook.dictionaries.map(dictionary => ({
+        ...dictionary,
+        texts: [...dictionary.texts.filter((texts) => texts.id !== textId)]
+      }))]
+    };
+  }
+
+  addTextToDictionary(workbook: Workbook, dictionaryId: string, text: Text) {
+    const newWorkbook = this.createNewWorkbookWithAddedTextToDictionary(workbook, dictionaryId, text);
+    this.store.dispatch(setWorkbook({ workbook: newWorkbook }));
+  }
+
+  private createNewWorkbookWithAddedTextToDictionary(workbook: Workbook, dictionaryId: string, text: Text): Workbook {
     return {
       ...workbook,
       dictionaries: [...workbook.dictionaries.map(dictionary => ({
         ...dictionary,
         texts: [...dictionary.texts].concat(dictionary.id === dictionaryId ? [text] : [])
       }))]
+    };
+  }
+
+  updateDictionary(dictionary: Dictionary) {
+    this.viewModel$?.pipe(
+      take(1),
+      map(workbook => this.createNewWorkbookWithUpdatedDictionary(workbook, dictionary)),
+      tap((workbook) => this.store.dispatch(setWorkbook({ workbook: workbook })))
+    ).subscribe();
+  }
+
+  private createNewWorkbookWithUpdatedDictionary(workbook: Workbook, dictionary: Dictionary): Workbook {
+    return {
+      ...workbook,
+      dictionaries: [...workbook.dictionaries.map(currentDictionary => {
+        if (currentDictionary.id === dictionary.id) {
+          return {
+            ...dictionary
+          };
+        }
+        return currentDictionary;
+      })]
     };
   }
 

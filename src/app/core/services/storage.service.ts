@@ -40,7 +40,7 @@ export class StorageService {
         {
           name: "teszt",
           id: '1',
-          default: false,
+          default: true,
           description: "This is a desctiption to bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla ",
           language: {
             id: uuid(),
@@ -48,7 +48,28 @@ export class StorageService {
             displayName: defaultLanguagesDisplayNames[DefaultLanguage.BG]
           },
           textLimit: 10,
-          texts: []
+          texts: [
+            {
+              id: uuid(),
+              originalText: "alma",
+              translatedText: "1appleappleappleappleappleappleappleappleappleappleappleappleappleappleappleapple1"
+            },
+            {
+              id: uuid(),
+              originalText: "reggel",
+              translatedText: "morning"
+            },
+            {
+              id: uuid(),
+              originalText: "kéz",
+              translatedText: "hand"
+            },
+            {
+              id: uuid(),
+              originalText: "labda",
+              translatedText: "ball"
+            }
+          ]
         },
         {
           name: "asd",

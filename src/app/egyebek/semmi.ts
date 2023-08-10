@@ -20,3 +20,18 @@
 //     this.languageService.addLanguage(language, workbook);
 //   }
 // }
+
+
+// <ion-item-sliding
+// *ngFor="let word of  ((workbook | findDictionaryInWorkbookById: dictionary.id)?.texts | sortTexts)">
+//   <ion-item>
+//   <ion-input class="ion-margin" [readonly]="true">
+//   <ion-label class="ion-text-wrap">{{word.translatedText}}</ion-label>
+// </ion-input>
+// <ion-label class="ion-text-wrap">{{word.originalText}}</ion-label>
+// </ion-item>
+// <ion-item-options>
+// <ion-item-option>Favorite</ion-item-option>
+// <ion-item-option color="danger" (click)="deleteText(workbook, dictionary, word)">Delete</ion-item-option>
+//   </ion-item-options>
+//   </ion-item-sliding>

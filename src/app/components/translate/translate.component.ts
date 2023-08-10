@@ -5,7 +5,7 @@ import { Dictionary, Text, Workbook } from "../../core/model/workbook";
 import { FormBuilder, FormControl, ReactiveFormsModule } from "@angular/forms";
 import { Store } from "@ngrx/store";
 import { selectWorkbook } from "../../state/workbook/workbook.selector";
-import { Observable, tap } from "rxjs";
+import { Observable } from "rxjs";
 import { DictionaryService } from "../../core/services/dictionary.service";
 import { FindTextsByDictionaryPipe } from "../../pipes/find-texts-by-dictionary.pipe";
 import { DictionaryTypeaheadComponent } from "../dictionary/typeahead/dictionary-typeahead.component";
@@ -25,7 +25,7 @@ export class TranslateComponent implements OnInit, ViewDidEnter {
     translatedText: this.fb.nonNullable.control(''),
   });
 
-  workbook$: Observable<Workbook> = this.store.select(selectWorkbook).pipe(tap(console.log));
+  workbook$: Observable<Workbook> = this.store.select(selectWorkbook);
 
   // TODO még jól jöhet (compareWith)
   compareIds = (a: Dictionary, b: Dictionary) => a.id === b.id;
