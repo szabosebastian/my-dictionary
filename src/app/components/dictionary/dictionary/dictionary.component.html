@@ -34,7 +34,7 @@
                           [readonly]="isComponentReadonly"
                           [value]="word.controls?.['originalText']?.value"/>
             <ion-button *ngIf="!isComponentReadonly" fill="clear" size="small" color="danger" class="ion-no-margin"
-                        (click)="confirmDelete(i)">
+                        (click)="confirmTextDelete(i)">
               <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
             </ion-button>
           </ion-item>
@@ -72,6 +72,10 @@
             Default:
           </ion-checkbox>
         </ion-item>
+        <ion-button fill="solid" class="ion-margin-top" expand="block" color="danger"
+                    (click)="confirmDictionaryDelete()">Delete
+        </ion-button>
+
       </ion-list>
     </div>
 

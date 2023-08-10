@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Dictionary, Language, Workbook } from "../../../core/model/workbook";
-import { ActionSheetController, AlertController, IonicModule, ModalController } from "@ionic/angular";
+import { ActionSheetController, AlertController, IonicModule, ModalController, NavController } from "@ionic/angular";
 import { SortTextsPipe } from "../../../pipes/sort-texts.pipe";
 import { DictionaryService } from "../../../core/services/dictionary.service";
 import { Store } from "@ngrx/store";
@@ -43,7 +43,8 @@ export class DictionaryComponent implements OnInit {
     private store: Store,
     private actionSheetController: ActionSheetController,
     private fb: FormBuilder,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private navController: NavController
   ) {}
 
   ngOnInit(): void {
@@ -65,7 +66,7 @@ export class DictionaryComponent implements OnInit {
     // this.dictionaryService.removeTextFromDictionary(workbook, dictionary.id, text.id);
   }
 
-  async confirmDelete(textIndex: number) {
+  async confirmTextDelete(textIndex: number) {
     const alert = await this.actionSheetController.create({
       header: 'Do you confirm to delete?',
       buttons: [
@@ -93,6 +94,31 @@ export class DictionaryComponent implements OnInit {
     });
 
     await alert.present();
+  }
+
+  async confirmDictionaryDelete() {
+    const alert = await this.actionSheetController.create({
+      header: 'Do you confirm to delete?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.deleteDictionary(this.dictionary.id);
+            this.navController.navigateRoot("/collection");
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  deleteDictionary(id: string) {
+    this.dictionaryService.deleteDictionary(id);
   }
 
   changeCheckbox(event: Event) {
