@@ -19,6 +19,18 @@ export class DictionaryService {
   ) {
   }
 
+  getDictionaries(): Dictionary[] {
+    let dictionaries: Dictionary[] = [];
+    this.viewModel$?.pipe(
+      take(1),
+    ).subscribe(
+      (res) => {
+        dictionaries = res.dictionaries;
+      }
+    );
+    return dictionaries;
+  }
+
   getDefaultDictionary(): Dictionary | undefined {
     let defaultDictionary: Dictionary | undefined;
     this.viewModel$?.pipe(
@@ -26,7 +38,7 @@ export class DictionaryService {
     ).subscribe(
       (res) => {
         console.log(res.dictionaries);
-        defaultDictionary = res.dictionaries.find(dictionary => dictionary.default) || undefined;
+        defaultDictionary = res.dictionaries.find(dictionary => dictionary.default) || res.dictionaries[0] || undefined;
       }
     );
     return defaultDictionary;

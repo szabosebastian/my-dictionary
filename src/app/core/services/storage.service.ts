@@ -68,7 +68,188 @@ export class StorageService {
               id: uuid(),
               originalText: "labda",
               translatedText: "ball"
-            }
+            },
+            {
+              id: uuid(),
+              originalText: "alma",
+              translatedText: "1appleappleappleappleappleappleappleappleappleappleappleappleappleappleappleapple1"
+            },
+            {
+              id: uuid(),
+              originalText: "reggel",
+              translatedText: "morning"
+            },
+            {
+              id: uuid(),
+              originalText: "kéz",
+              translatedText: "hand"
+            },
+            {
+              id: uuid(),
+              originalText: "labda",
+              translatedText: "ball"
+            },
+            {
+              id: uuid(),
+              originalText: "alma",
+              translatedText: "1appleappleappleappleappleappleappleappleappleappleappleappleappleappleappleapple1"
+            },
+            {
+              id: uuid(),
+              originalText: "reggel",
+              translatedText: "morning"
+            },
+            {
+              id: uuid(),
+              originalText: "kéz",
+              translatedText: "hand"
+            },
+            {
+              id: uuid(),
+              originalText: "labda",
+              translatedText: "ball"
+            },
+            {
+              id: uuid(),
+              originalText: "alma",
+              translatedText: "1appleappleappleappleappleappleappleappleappleappleappleappleappleappleappleapple1"
+            },
+            {
+              id: uuid(),
+              originalText: "reggel",
+              translatedText: "morning"
+            },
+            {
+              id: uuid(),
+              originalText: "kéz",
+              translatedText: "hand"
+            },
+            {
+              id: uuid(),
+              originalText: "labda",
+              translatedText: "ball"
+            },
+            {
+              id: uuid(),
+              originalText: "alma",
+              translatedText: "1appleappleappleappleappleappleappleappleappleappleappleappleappleappleappleapple1"
+            },
+            {
+              id: uuid(),
+              originalText: "reggel",
+              translatedText: "morning"
+            },
+            {
+              id: uuid(),
+              originalText: "kéz",
+              translatedText: "hand"
+            },
+            {
+              id: uuid(),
+              originalText: "labda",
+              translatedText: "ball"
+            },
+            {
+              id: uuid(),
+              originalText: "alma",
+              translatedText: "1appleappleappleappleappleappleappleappleappleappleappleappleappleappleappleapple1"
+            },
+            {
+              id: uuid(),
+              originalText: "reggel",
+              translatedText: "morning"
+            },
+            {
+              id: uuid(),
+              originalText: "kéz",
+              translatedText: "hand"
+            },
+            {
+              id: uuid(),
+              originalText: "labda",
+              translatedText: "ball"
+            },
+            {
+              id: uuid(),
+              originalText: "alma",
+              translatedText: "1appleappleappleappleappleappleappleappleappleappleappleappleappleappleappleapple1"
+            },
+            {
+              id: uuid(),
+              originalText: "reggel",
+              translatedText: "morning"
+            },
+            {
+              id: uuid(),
+              originalText: "kéz",
+              translatedText: "hand"
+            },
+            {
+              id: uuid(),
+              originalText: "labda",
+              translatedText: "ball"
+            },
+            {
+              id: uuid(),
+              originalText: "alma",
+              translatedText: "1appleappleappleappleappleappleappleappleappleappleappleappleappleappleappleapple1"
+            },
+            {
+              id: uuid(),
+              originalText: "reggel",
+              translatedText: "morning"
+            },
+            {
+              id: uuid(),
+              originalText: "kéz",
+              translatedText: "hand"
+            },
+            {
+              id: uuid(),
+              originalText: "labda",
+              translatedText: "ball"
+            },
+            {
+              id: uuid(),
+              originalText: "alma",
+              translatedText: "1appleappleappleappleappleappleappleappleappleappleappleappleappleappleappleapple1"
+            },
+            {
+              id: uuid(),
+              originalText: "reggel",
+              translatedText: "morning"
+            },
+            {
+              id: uuid(),
+              originalText: "kéz",
+              translatedText: "hand"
+            },
+            {
+              id: uuid(),
+              originalText: "labda",
+              translatedText: "ball"
+            },
+            {
+              id: uuid(),
+              originalText: "alma",
+              translatedText: "1appleappleappleappleappleappleappleappleappleappleappleappleappleappleappleapple1"
+            },
+            {
+              id: uuid(),
+              originalText: "reggel",
+              translatedText: "morning"
+            },
+            {
+              id: uuid(),
+              originalText: "kéz",
+              translatedText: "hand"
+            },
+            {
+              id: uuid(),
+              originalText: "labda",
+              translatedText: "ball"
+            },
+            
           ]
         },
         {

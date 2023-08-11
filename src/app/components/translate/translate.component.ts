@@ -44,18 +44,17 @@ export class TranslateComponent implements OnInit, ViewDidEnter {
   }
 
   ionViewDidEnter(): void {
-    const defaultDicionary = this.dictionaryService.getDefaultDictionary();
-
-    if (!defaultDicionary) {
-      this.presentAlert();
+    if (this.dictionaryService.getDictionaries().length === 0) {
+      this.presentNoDictionaryAlert();
     }
 
-    this.currentDictionaryControl.patchValue(defaultDicionary!);
+    this.currentDictionaryControl.patchValue(this.dictionaryService.getDefaultDictionary()!);
   }
 
-  async presentAlert() {
+  async presentNoDictionaryAlert() {
     const alert = await this.alertCtrl.create({
       message: 'Please create dictionary.',
+      backdropDismiss: false,
       buttons: [
         {
           text: 'Create dictionary',

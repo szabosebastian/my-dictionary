@@ -59,6 +59,8 @@ export class DictionaryComponent implements OnInit {
         })
       );
     });
+
+    this.form.disable();
   }
 
   deleteText(textIndex: number) {
@@ -106,15 +108,17 @@ export class DictionaryComponent implements OnInit {
         },
         {
           text: 'Yes',
-          handler: () => {
+          handler: async () => {
             this.deleteDictionary(this.dictionary.id);
-            this.navController.navigateRoot("/collection");
+            await alert.dismiss();
+            await this.modalCtrl.dismiss(null, 'cancel');
           }
         }
       ]
     });
 
     await alert.present();
+
   }
 
   deleteDictionary(id: string) {
@@ -144,6 +148,9 @@ export class DictionaryComponent implements OnInit {
     if (this.isComponentReadonly) {
       console.log("Dictionary update");
       this.dictionaryService.updateDictionary(this.form.getRawValue() as Dictionary);
+      this.form.disable();
+    } else {
+      this.form.enable();
     }
   }
 
