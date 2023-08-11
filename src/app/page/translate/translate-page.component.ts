@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AlertController, IonicModule, ModalController, NavController, ViewDidEnter } from "@ionic/angular";
+import {
+  AlertController,
+  InfiniteScrollCustomEvent,
+  IonicModule,
+  ModalController,
+  NavController,
+  ViewDidEnter
+} from "@ionic/angular";
 import { Dictionary, Text, Workbook } from "../../core/model/workbook";
 import { FormBuilder, FormControl, ReactiveFormsModule } from "@angular/forms";
 import { Store } from "@ngrx/store";
@@ -8,16 +15,16 @@ import { selectWorkbook } from "../../state/workbook/workbook.selector";
 import { Observable } from "rxjs";
 import { DictionaryService } from "../../core/services/dictionary.service";
 import { FindTextsByDictionaryPipe } from "../../pipes/find-texts-by-dictionary.pipe";
-import { DictionaryTypeaheadComponent } from "../dictionary/typeahead/dictionary-typeahead.component";
+import { DictionaryTypeaheadComponent } from "../../components/dictionary/typeahead/dictionary-typeahead.component";
 
 @Component({
   selector: 'app-translate',
   standalone: true,
   imports: [CommonModule, IonicModule, ReactiveFormsModule, FindTextsByDictionaryPipe, DictionaryTypeaheadComponent],
-  templateUrl: './translate.component.html',
-  styleUrls: ['./translate.component.scss']
+  templateUrl: './translate-page.component.html',
+  styleUrls: ['./translate-page.component.scss']
 })
-export class TranslateComponent implements OnInit, ViewDidEnter {
+export class TranslatePageComponent implements OnInit, ViewDidEnter {
   currentDictionaryControl = new FormControl({} as Dictionary, { nonNullable: true });
 
   form = this.fb.group({
@@ -76,12 +83,12 @@ export class TranslateComponent implements OnInit, ViewDidEnter {
     }
   }
 
-  async confirm(dictionaries: Dictionary[]) {
+  async selectFromDictionaries(dictionaries: Dictionary[]) {
     const modal = await this.modalCtrl.create({
       component: DictionaryTypeaheadComponent,
       componentProps: {
         items: dictionaries,
-        title: "Test title"
+        title: "Dictionaries"
       }
     });
 
@@ -90,10 +97,14 @@ export class TranslateComponent implements OnInit, ViewDidEnter {
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
-      console.log(data);
-      console.log("data");
       this.currentDictionaryControl.patchValue(data as Dictionary);
     }
+  }
+
+  onIonInfinite(ev: Event) {
+    setTimeout(() => {
+      (ev as InfiniteScrollCustomEvent).target.complete();
+    }, 500);
   }
 
   consoleLog(workbook: Workbook) {

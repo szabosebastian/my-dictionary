@@ -20,10 +20,17 @@
         <ion-label>Properties</ion-label>
       </ion-segment-button>
     </ion-segment>
-
+    sortolható asc,desc és kereshető (searchbar) popover vagy actionsheet 4 lehetőséggel
 
     <div class="ion-margin-top" *ngIf="selectedSegment === 'words'">
       <ion-list>
+
+        <ion-item>
+          <ion-searchbar></ion-searchbar>
+          <ion-button fill="clear" size="small" color="primary" class="ion-no-margin">
+            <ion-icon slot="icon-only" name="swap-vertical-outline"></ion-icon>
+          </ion-button>
+        </ion-item>
 
         <ng-container formArrayName="texts">
           <ion-item class="ion-no-padding" [formArrayName]="i"

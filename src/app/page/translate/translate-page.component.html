@@ -1,0 +1,36 @@
+<ion-content [formGroup]="form" *ngIf="(workbook$ | async) as workbook">
+
+  <ion-list>
+    <ion-item [button]="true" [detail]="false">
+      <ion-label>Dictionary:</ion-label>
+      <div slot="end"
+           (click)="selectFromDictionaries(workbook.dictionaries)">{{ currentDictionaryControl?.getRawValue()?.name }}
+        - {{ currentDictionaryControl.getRawValue()?.language?.shortName }}</div>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="From:" formControlName="originalText" [clearInput]="true"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="To:" formControlName="translatedText" [clearInput]="true"></ion-input>
+    </ion-item>
+
+  </ion-list>
+
+  <ion-button expand="block" class="ion-margin" (click)="addTextToDictionary(workbook)">
+    Add to dictionary
+  </ion-button>
+
+  <div class="ion-margin-top">
+
+    <ion-list>
+      <ion-item
+        *ngFor="let text of (workbook | findTextsByDictionary: currentDictionaryControl?.getRawValue())">
+        {{text.originalText}} - {{text.translatedText}}
+      </ion-item>
+    </ion-list>
+
+  </div>
+
+</ion-content>
