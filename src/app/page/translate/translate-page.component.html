@@ -1,49 +1,58 @@
 <ion-content [formGroup]="form" *ngIf="(workbook$ | async) as workbook">
 
-  <ion-list>
-    <ion-item [button]="true" [detail]="false">
-      <ion-label>Dictionary:</ion-label>
-      <div slot="end"
-           (click)="selectFromDictionaries(workbook.dictionaries)">{{ currentDictionaryControl?.getRawValue()?.name }}
-        - {{ currentDictionaryControl.getRawValue()?.language?.shortName }}</div>
-    </ion-item>
+    <ion-list>
+        <ion-item [button]="true" [detail]="false">
+            <ion-label>Dictionary:</ion-label>
+            <div slot="end"
+                 (click)="selectFromDictionaries(workbook.dictionaries)">{{ currentDictionaryControl?.getRawValue()?.name }}
+                - {{ currentDictionaryControl.getRawValue()?.language?.shortName }}</div>
+        </ion-item>
 
-    <ion-item>
-      <ion-input label="From:" formControlName="originalText" [clearInput]="true"></ion-input>
-    </ion-item>
+        <ion-item>
+            <ion-input label="From:" formControlName="originalText" [clearInput]="true"></ion-input>
+        </ion-item>
 
-    <ion-item>
-      <ion-input label="To:" formControlName="translatedText" [clearInput]="true"></ion-input>
-    </ion-item>
+        <ion-item>
+            <ion-input label="To:" formControlName="translatedText" [clearInput]="true"></ion-input>
+        </ion-item>
 
-  </ion-list>
+    </ion-list>
 
-  <ion-button expand="block" class="ion-margin" (click)="addTextToDictionary(workbook)">
-    Add to dictionary
-  </ion-button>
+    <ion-button expand="block" class="ion-margin" (click)="addTextToDictionary(workbook)">
+        Add to dictionary
+    </ion-button>
 
-  <div class="ion-margin-top">
+    <div class="ion-margin-top">
 
-    <!--    *ngIf="workbook | findLastTextByDictionary: currentDictionaryControl?.getRawValue() as lastText"-->
-    <ion-item *ngIf="workbook | findLastTextByDictionary: currentDictionaryControl?.getRawValue() as lastText">
-      <ng-container [formGroup]="lastTextForm">
-        <ion-textarea formControlName="translatedText"
-                      [autoGrow]="true"
-                      class="ion-margin ion-text-wrap ion-no-padding">
-          <!--          {{lastText.translatedText}}-->
-        </ion-textarea>
-        <ion-textarea
-          formControlName="originalText" [autoGrow]="true"
-          class="ion-margin ion-text-wrap ion-no-padding"/>
-        <ion-button fill="clear" size="small" color="danger" class="ion-no-margin"
-                    (click)="updateText(workbook)">
-          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-        </ion-button>
-      </ng-container>
-    </ion-item>
+        <ion-list class="ion-margin">
+            <ion-label>
+                proba
+            </ion-label>
+            <ion-item-sliding [formGroup]="lastTextForm" class="last-text">
+                <ion-item lines="none" color="primary"
+                          *ngIf="workbook | findLastTextByDictionary: currentDictionaryControl?.getRawValue()">
+                    <ion-textarea label="Translated text" labelPlacement="floating" formControlName="translatedText"
+                                  [autoGrow]="true"
+                                  class="ion-margin ion-text-wrap ion-no-padding">
+                    </ion-textarea>
+                    <ion-textarea
+                            formControlName="originalText"
+                            [autoGrow]="true"
+                            class="ion-margin ion-text-wrap ion-no-padding"/>
+                </ion-item>
+                <ion-item-options>
+                    <ion-item-option color="tertiary">Save</ion-item-option>
+                    <ion-item-option color="danger">Delete</ion-item-option>
+                </ion-item-options>
+            </ion-item-sliding>
+        </ion-list>
+    </div>
 
-  </div>
+    <!--    <ion-button fill="clear" size="small" color="danger" class="ion-no-margin"-->
+    <!--                (click)="updateText(workbook)">-->
+    <!--        <ion-icon slot="icon-only" name="trash-outline"></ion-icon>-->
+    <!--    </ion-button>-->
 
-  <ion-button (click)="consoleLog()">LOG</ion-button>
+    <ion-button (click)="consoleLog()">LOG</ion-button>
 
 </ion-content>
