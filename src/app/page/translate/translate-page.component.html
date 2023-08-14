@@ -24,13 +24,26 @@
 
   <div class="ion-margin-top">
 
-    <ion-list>
-      <ion-item
-        *ngFor="let text of (workbook | findTextsByDictionary: currentDictionaryControl?.getRawValue())">
-        {{text.originalText}} - {{text.translatedText}}
-      </ion-item>
-    </ion-list>
+    <!--    *ngIf="workbook | findLastTextByDictionary: currentDictionaryControl?.getRawValue() as lastText"-->
+    <ion-item *ngIf="workbook | findLastTextByDictionary: currentDictionaryControl?.getRawValue() as lastText">
+      <ng-container [formGroup]="lastTextForm">
+        <ion-textarea formControlName="translatedText"
+                      [autoGrow]="true"
+                      class="ion-margin ion-text-wrap ion-no-padding">
+          <!--          {{lastText.translatedText}}-->
+        </ion-textarea>
+        <ion-textarea
+          formControlName="originalText" [autoGrow]="true"
+          class="ion-margin ion-text-wrap ion-no-padding"/>
+        <ion-button fill="clear" size="small" color="danger" class="ion-no-margin"
+                    (click)="updateText(workbook)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </ng-container>
+    </ion-item>
 
   </div>
+
+  <ion-button (click)="consoleLog()">LOG</ion-button>
 
 </ion-content>

@@ -30,24 +30,6 @@
           </ion-button>
         </ion-item>
 
-        <!--        <ng-container formArrayName="texts">-->
-        <!--          <ion-item class="ion-no-padding" [formArrayName]="i"-->
-        <!--                    *ngFor="let text of form.controls.texts.controls; index as i">-->
-        <!--            <ion-textarea formControlName="translatedText" [autoGrow]="true"-->
-        <!--                          class="ion-margin ion-text-wrap ion-no-padding"-->
-        <!--                          [readonly]="isComponentReadonly"-->
-        <!--                          [value]="text.controls?.['translatedText']?.value"/>-->
-        <!--            <ion-textarea formControlName="originalText" [autoGrow]="true"-->
-        <!--                          class="ion-margin ion-text-wrap ion-no-padding"-->
-        <!--                          [readonly]="isComponentReadonly"-->
-        <!--                          [value]="text.controls?.['originalText']?.value"/>-->
-        <!--            <ion-button *ngIf="!isComponentReadonly" fill="clear" size="small" color="danger" class="ion-no-margin"-->
-        <!--                        (click)="confirmTextDelete(i)">-->
-        <!--              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>-->
-        <!--            </ion-button>-->
-        <!--          </ion-item>-->
-        <!--        </ng-container>-->
-
         <ng-container>
           <ion-item class="ion-no-padding"
                     *ngFor="let text of (textsForm | async); index as i">

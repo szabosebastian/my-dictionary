@@ -276,8 +276,8 @@ export class StorageService {
             },
             {
               id: uuid(),
-              originalText: "labda",
-              translatedText: "ball"
+              originalText: "labda2",
+              translatedText: "ball2"
             },
           ]
         },
