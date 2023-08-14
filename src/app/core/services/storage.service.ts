@@ -249,7 +249,7 @@ export class StorageService {
               originalText: "labda",
               translatedText: "ball"
             },
-            
+
           ]
         },
         {
@@ -263,7 +263,23 @@ export class StorageService {
             displayName: defaultLanguagesDisplayNames[DefaultLanguage.BG]
           },
           textLimit: 10,
-          texts: []
+          texts: [
+            {
+              id: uuid(),
+              originalText: "reggel",
+              translatedText: "morning"
+            },
+            {
+              id: uuid(),
+              originalText: "kéz",
+              translatedText: "hand"
+            },
+            {
+              id: uuid(),
+              originalText: "labda",
+              translatedText: "ball"
+            },
+          ]
         },
         {
           name: "kekke5464545654456645645645646546456456r",
