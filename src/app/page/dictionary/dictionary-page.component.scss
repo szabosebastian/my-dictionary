@@ -1,24 +1,30 @@
-.search-item {
-  max-width: 70%;
-  min-width: 70%;
+.toolbar-content {
+  display: flex;
+  align-items: center;
 }
+
+$height: 36px;
 
 .search-bar {
-  opacity: 0.5;
+  padding: 0;
+  min-width: 70%;
+
+  ::ng-deep .searchbar-input-container.sc-ion-searchbar-ios {
+    height: $height;
+  }
+
+  ::ng-deep .searchbar-input-container.sc-ion-searchbar-md {
+    height: $height;
+  }
+
 }
 
-ion-toolbar {
-  --min-height: 0rem !important;
-}
-
-ion-item::part(native) {
-  background: #7a7a7a;
-  text-align: left;
-
-  border-color: #fff;
-  border-width: 1px;
-
+.select {
+  padding-left: 5px;
+  margin-left: 10px;
+  max-width: 30%;
   border-radius: 10px;
+  background-color: rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.07);
 
-  --inner-padding-end: 0px;
+  min-height: $height !important;
 }

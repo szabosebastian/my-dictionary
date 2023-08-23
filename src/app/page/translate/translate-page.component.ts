@@ -1,6 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AlertController, IonicModule, ModalController, NavController, ViewDidEnter } from "@ionic/angular";
+import {
+  AlertController,
+  IonicModule,
+  IonItemSliding,
+  ModalController,
+  NavController,
+  ViewDidEnter
+} from "@ionic/angular";
 import { Dictionary, Text, Workbook } from "../../core/model/workbook";
 import { FormBuilder, FormControl, ReactiveFormsModule } from "@angular/forms";
 import { Store } from "@ngrx/store";
@@ -110,9 +117,14 @@ export class TranslatePageComponent implements ViewDidEnter {
     }
   }
 
-  updateText(workbook: Workbook) {
-    console.log('lastTextFrom', this.lastTextForm.getRawValue());
+  removeText(workbook: Workbook, slidingItem: IonItemSliding) {
+    this.dictionaryService.removeTextFromDictionary(workbook, this.currentDictionaryControl.getRawValue()?.id!, this.lastTextForm.getRawValue().id);
+    slidingItem.close();
+  }
+
+  updateText(workbook: Workbook, slidingItem: IonItemSliding) {
     this.textService.updateText(workbook, this.lastTextForm.getRawValue());
+    slidingItem.close();
   }
 
   consoleLog() {

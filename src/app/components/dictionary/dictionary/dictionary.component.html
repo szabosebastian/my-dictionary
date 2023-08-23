@@ -4,7 +4,7 @@
       <ion-buttons slot="start">
         <ion-button (click)="cancel()">Cancel</ion-button>
       </ion-buttons>
-      <ion-title>Welcome</ion-title>
+      <ion-title>{{form.getRawValue().name}}</ion-title>
       <ion-buttons slot="end">
         <ion-button (click)="edit()" [strong]="true">{{isComponentReadonly ? "Edit" : "Save"}}</ion-button>
       </ion-buttons>
@@ -12,7 +12,7 @@
   </ion-header>
   <ion-content class="ion-padding">
 
-    <ion-segment value="default" (ionChange)="segmentChanged($event)">
+    <ion-segment value="texts" (ionChange)="segmentChanged($event)">
       <ion-segment-button value="texts">
         <ion-label>Words</ion-label>
       </ion-segment-button>
@@ -21,15 +21,17 @@
       </ion-segment-button>
     </ion-segment>
     <div class="ion-margin-top" *ngIf="selectedSegment === 'texts'">
-      <ion-list>
-
-        <ion-item>
-          <ion-searchbar [formControl]="typeaheadControl"></ion-searchbar>
+      <div class="d-flex flex-row">
+        <ion-searchbar placeholder="Search texts..." class="ion-no-padding"
+                       [formControl]="typeaheadControl"></ion-searchbar>
+        <ion-buttons>
           <ion-button fill="clear" size="small" color="primary" class="ion-no-margin" (click)="sortTextSheet()">
             <ion-icon slot="icon-only" name="swap-vertical-outline"></ion-icon>
           </ion-button>
-        </ion-item>
+        </ion-buttons>
+      </div>
 
+      <ion-list>
         <ng-container>
           <ion-item class="ion-no-padding"
                     *ngFor="let text of (textsForm | async); index as i">
@@ -61,7 +63,7 @@
         </ion-item>
 
         <ion-item>
-          <ion-select label="Language:" formControlName="language" [compareWith]="compareIds">
+          <ion-select label="Language:" formControlName="language" interface="action-sheet" [compareWith]="compareIds">
             <ion-select-option
               *ngFor="let language of (workbook.languages | sortLanguages)"
               [value]="language">{{language.shortName}} - {{language.displayName}}</ion-select-option>
@@ -91,7 +93,4 @@
       </ion-list>
     </div>
   </ion-content>
-  <ion-button (click)="log()">
-    LOG
-  </ion-button>
 </ng-container>

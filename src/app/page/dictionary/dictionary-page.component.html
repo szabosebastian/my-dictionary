@@ -1,19 +1,28 @@
-<ion-toolbar *ngIf="(viewModel$ | async) as workbook" class="ion-padding-horizontal">
-  <div class="d-flex gap-3 search-bar">
-    <ion-item lines="none" class="search-item" color="medium">
-      <ion-input [formControl]="typeaheadControl" placeholder="Type dictionary name...">
-      </ion-input>
-    </ion-item>
-
-    <ion-item lines="none" color="medium">
-      <ion-select [formControl]="currentLanguageControl">
-        <ion-select-option
-          *ngFor="let language of (workbook.languages | sortLanguages)"
-          [value]="language">{{language.shortName}} - {{language.displayName}}</ion-select-option>
-      </ion-select>
-    </ion-item>
+<ion-toolbar *ngIf="(viewModel$ | async) as workbook">
+  <div class="toolbar-content ion-margin-horizontal">
+    <ion-searchbar [formControl]="typeaheadControl" class="search-bar"
+                   placeholder="Type dictionary name..."></ion-searchbar>
+    <ion-select justify="end" class="select" interface="action-sheet"
+                [formControl]="currentLanguageControl">
+      <ion-select-option
+        *ngFor="let language of (workbook.languages | sortLanguages)"
+        [value]="language">{{language.shortName}} - {{language.displayName}}</ion-select-option>
+    </ion-select>
   </div>
 </ion-toolbar>
+
+<!--<ion-toolbar *ngIf="(viewModel$ | async) as workbook" class="ion-padding-horizontal">-->
+<!--  <ion-searchbar slot="start" class="search-bar" [formControl]="typeaheadControl"-->
+<!--                 placeholder="Type dictionary name..."></ion-searchbar>-->
+
+<!--  <ion-select slot="end" class="select" [formControl]="currentLanguageControl">-->
+<!--    <ion-select-option-->
+<!--      *ngFor="let language of (workbook.languages | sortLanguages)"-->
+<!--      [value]="language">{{language.shortName}} - {{language.displayName}}</ion-select-option>-->
+<!--  </ion-select>-->
+<!--</ion-toolbar>-->
+
+
 <ion-content *ngIf="(viewModel$ | async) as workbook">
   <ion-list class="ion-margin-horizontal">
     <ion-card

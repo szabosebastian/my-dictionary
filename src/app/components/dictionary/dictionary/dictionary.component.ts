@@ -80,7 +80,6 @@ export class DictionaryComponent implements OnInit {
 
   deleteText(textIndex: number) {
     this.form.controls.texts.removeAt(textIndex);
-    // this.dictionaryService.removeTextFromDictionary(workbook, dictionary.id, text.id);
   }
 
   async sortTextSheet() {

@@ -1,58 +1,60 @@
 <ion-content [formGroup]="form" *ngIf="(workbook$ | async) as workbook">
 
-    <ion-list>
-        <ion-item [button]="true" [detail]="false">
-            <ion-label>Dictionary:</ion-label>
-            <div slot="end"
-                 (click)="selectFromDictionaries(workbook.dictionaries)">{{ currentDictionaryControl?.getRawValue()?.name }}
-                - {{ currentDictionaryControl.getRawValue()?.language?.shortName }}</div>
-        </ion-item>
+  <ion-card color="light">
+    <ion-card-header class="ion-no-padding">
+      <ion-item color="light" class="dictionary" [button]="true" [detail]="true">
+        <ion-label>Dictionary:</ion-label>
+        <div slot="end"
+             (click)="selectFromDictionaries(workbook.dictionaries)">{{ currentDictionaryControl?.getRawValue()?.name }}
+          - {{ currentDictionaryControl.getRawValue()?.language?.shortName }}</div>
+      </ion-item>
+    </ion-card-header>
+    <ion-card-content class="ion-no-padding">
+      <ion-item color="light" class="ion-margin-top">
+        <ion-textarea label="From:" formControlName="originalText" [clearOnEdit]="true"></ion-textarea>
+      </ion-item>
 
-        <ion-item>
-            <ion-input label="From:" formControlName="originalText" [clearInput]="true"></ion-input>
-        </ion-item>
-
-        <ion-item>
-            <ion-input label="To:" formControlName="translatedText" [clearInput]="true"></ion-input>
-        </ion-item>
-
-    </ion-list>
+      <ion-item color="light">
+        <ion-textarea label="To:" formControlName="translatedText" [clearOnEdit]="true"></ion-textarea>
+      </ion-item>
+    </ion-card-content>
 
     <ion-button expand="block" class="ion-margin" (click)="addTextToDictionary(workbook)">
-        Add to dictionary
+      Add to dictionary
     </ion-button>
+  </ion-card>
 
-    <div class="ion-margin-top">
+  <!--  <ion-button expand="block" class="ion-margin" (click)="addTextToDictionary(workbook)">-->
+  <!--    Add to dictionary-->
+  <!--  </ion-button>-->
 
-        <ion-list class="ion-margin">
-            <ion-label>
-                proba
-            </ion-label>
-            <ion-item-sliding [formGroup]="lastTextForm" class="last-text">
-                <ion-item lines="none" color="primary"
-                          *ngIf="workbook | findLastTextByDictionary: currentDictionaryControl?.getRawValue()">
-                    <ion-textarea label="Translated text" labelPlacement="floating" formControlName="translatedText"
-                                  [autoGrow]="true"
-                                  class="ion-margin ion-text-wrap ion-no-padding">
-                    </ion-textarea>
-                    <ion-textarea
-                            formControlName="originalText"
-                            [autoGrow]="true"
-                            class="ion-margin ion-text-wrap ion-no-padding"/>
-                </ion-item>
-                <ion-item-options>
-                    <ion-item-option color="tertiary">Save</ion-item-option>
-                    <ion-item-option color="danger">Delete</ion-item-option>
-                </ion-item-options>
-            </ion-item-sliding>
-        </ion-list>
-    </div>
-
-    <!--    <ion-button fill="clear" size="small" color="danger" class="ion-no-margin"-->
-    <!--                (click)="updateText(workbook)">-->
-    <!--        <ion-icon slot="icon-only" name="trash-outline"></ion-icon>-->
-    <!--    </ion-button>-->
-
-    <ion-button (click)="consoleLog()">LOG</ion-button>
-
+  <div class="ion-margin-top">
+    <ion-card color="light">
+      <ion-card-header class="ion-no-padding ion-padding-top ion-padding-start">
+        <ion-card-subtitle>
+          Latest text
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content class="ion-no-padding">
+        <ion-item-sliding #slidingItem [formGroup]="lastTextForm" class="last-text">
+          <ion-item lines="none" color="light"
+                    *ngIf="workbook | findLastTextByDictionary: currentDictionaryControl?.getRawValue()">
+            <ion-textarea label="Translated text" labelPlacement="floating" formControlName="translatedText"
+                          class="ion-margin ion-text-wrap ion-no-padding">
+            </ion-textarea>
+            <ion-textarea
+              label="Original text"
+              labelPlacement="floating"
+              formControlName="originalText"
+              class="ion-margin ion-text-wrap ion-no-padding"/>
+            <ion-icon name="chevron-back" slot="end"></ion-icon>
+          </ion-item>
+          <ion-item-options>
+            <ion-item-option (click)="updateText(workbook, slidingItem)" color="tertiary">Save</ion-item-option>
+            <ion-item-option (click)="removeText(workbook, slidingItem)" color="danger">Delete</ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
