@@ -2,7 +2,7 @@
 
   <ion-card color="light">
     <ion-card-header class="ion-no-padding">
-      <ion-item color="light" class="dictionary" [button]="true" [detail]="true">
+      <ion-item color="light" [button]="true" [detail]="true">
         <ion-label>Dictionary:</ion-label>
         <div slot="end"
              (click)="selectFromDictionaries(workbook.dictionaries)">{{ currentDictionaryControl?.getRawValue()?.name }}
@@ -36,7 +36,7 @@
         </ion-card-subtitle>
       </ion-card-header>
       <ion-card-content class="ion-no-padding">
-        <ion-item-sliding #slidingItem [formGroup]="lastTextForm" class="last-text">
+        <ion-item-sliding #slidingItem [formGroup]="lastTextForm">
           <ion-item lines="none" color="light"
                     *ngIf="workbook | findLastTextByDictionary: currentDictionaryControl?.getRawValue()">
             <ion-textarea label="Translated text" labelPlacement="floating" formControlName="translatedText"

@@ -24,19 +24,17 @@
 
 
 <ion-content *ngIf="(viewModel$ | async) as workbook">
-  <ion-list class="ion-margin-horizontal">
-    <ion-card
-      *ngFor="let dictionary of filteredDictionaries$  | async" (click)="openDictionaryModal(dictionary)">
-      <ion-card-header>
-        <ion-card-title>{{dictionary.name}}</ion-card-title>
-      </ion-card-header>
+  <ion-card class="ion-margin-horizontal"
+            *ngFor="let dictionary of filteredDictionaries$  | async" (click)="openDictionaryModal(dictionary)">
+    <ion-card-header>
+      <ion-card-title>{{dictionary.name}}</ion-card-title>
+    </ion-card-header>
 
-      <ion-card-content>
-        {{dictionary.description}}
-      </ion-card-content>
+    <ion-card-content>
+      {{dictionary.description}}
+    </ion-card-content>
 
-    </ion-card>
-  </ion-list>
+  </ion-card>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end" class="ion-margin-end ion-margin-bottom">
     <ion-fab-button (click)="addDictionaryModal()">

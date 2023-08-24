@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActionSheetController, AlertController, IonicModule, ModalController } from "@ionic/angular";
+import { ActionSheetController, IonicModule, ModalController } from "@ionic/angular";
 import { Dictionary, Language } from "../../core/model/workbook";
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NewDictionaryModalComponent } from "../../components/dictionary/new-dictionary/new-dictionary-modal.component";
@@ -51,7 +51,6 @@ export class DictionaryPageComponent implements OnInit {
     private store: Store,
     private dictionaryService: DictionaryService,
     private languageService: LanguageService,
-    private alertCtrl: AlertController,
     private actionSheetController: ActionSheetController
   ) {}
 

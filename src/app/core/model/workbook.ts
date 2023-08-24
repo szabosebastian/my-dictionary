@@ -9,8 +9,12 @@ export interface Workbook {
 }
 
 export interface Collection {
-  language: Language;
-  dictionaries: Dictionary[];
+  id: string;
+  name: string;
+  dictionaryIds: string[];
+  texts: Text[];
+  gameSettings: GameSettings;
+  result: CollectionResult;
 }
 
 export interface Dictionary {
@@ -33,6 +37,26 @@ export interface Language {
   id: string;
   shortName: string;
   displayName: string;
+}
+
+export interface GameSettings {
+  id: string;
+  onlyOriginalText: boolean;
+  onlyTranslatedText: boolean;
+  numberOfTextOption: number;
+}
+
+export interface CollectionResult {
+  id: string;
+  status: GameResultStatus;
+  requiredSuccessfulNumber: number;
+  failed: number;
+  successful: number;
+}
+
+export enum GameResultStatus {
+  SUCCESSFUL = 'SUCCESSFUL',
+  PENDING = 'PENDING'
 }
 
 export enum DefaultLanguage {

@@ -1,1 +1,12 @@
-<p>game-page works!</p>
+<!--<ion-toolbar *ngIf="(viewModel$ | async) as workbook">-->
+<!--    <ion-searchbar [formControl]="typeaheadControl" class="ion-margin-horizontal"-->
+<!--                   placeholder="Type dictionary name..."></ion-searchbar>-->
+<!--</ion-toolbar>-->
+
+<ion-content>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" class="ion-margin-end ion-margin-bottom">
+    <ion-fab-button (click)="createNewCollectionModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

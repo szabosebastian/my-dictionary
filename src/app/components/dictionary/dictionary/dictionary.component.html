@@ -30,67 +30,73 @@
           </ion-button>
         </ion-buttons>
       </div>
+      
+      <ion-card color="light" class="ion-no-margin">
+        <ion-card-content class="ion-no-padding">
+          <ng-container>
+            <ion-item class="ion-no-padding"
+                      *ngFor="let text of (textsForm | async); index as i">
+              <ng-container [formGroup]="text">
+                <ion-textarea formControlName="translatedText" [autoGrow]="true"
+                              class="ion-margin ion-text-wrap ion-no-padding"
+                              [readonly]="isComponentReadonly"
+                              [value]="text.controls?.['translatedText']?.value"/>
+                <ion-textarea formControlName="originalText" [autoGrow]="true"
+                              class="ion-margin ion-text-wrap ion-no-padding"
+                              [readonly]="isComponentReadonly"
+                              [value]="text.controls?.['originalText']?.value"/>
+                <ion-button *ngIf="!isComponentReadonly" fill="clear" size="small" color="danger" class="ion-no-margin"
+                            (click)="confirmTextDeleteSheet(i)">
+                  <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                </ion-button>
+              </ng-container>
 
-      <ion-list>
-        <ng-container>
-          <ion-item class="ion-no-padding"
-                    *ngFor="let text of (textsForm | async); index as i">
-            <ng-container [formGroup]="text">
-              <ion-textarea formControlName="translatedText" [autoGrow]="true"
-                            class="ion-margin ion-text-wrap ion-no-padding"
-                            [readonly]="isComponentReadonly"
-                            [value]="text.controls?.['translatedText']?.value"/>
-              <ion-textarea formControlName="originalText" [autoGrow]="true"
-                            class="ion-margin ion-text-wrap ion-no-padding"
-                            [readonly]="isComponentReadonly"
-                            [value]="text.controls?.['originalText']?.value"/>
-              <ion-button *ngIf="!isComponentReadonly" fill="clear" size="small" color="danger" class="ion-no-margin"
-                          (click)="confirmTextDeleteSheet(i)">
-                <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-              </ion-button>
-            </ng-container>
+            </ion-item>
+          </ng-container>
 
-          </ion-item>
-        </ng-container>
-
-      </ion-list>
+        </ion-card-content>
+      </ion-card>
     </div>
 
     <div class="ion-margin-top" *ngIf="selectedSegment === 'properties'">
-      <ion-list>
-        <ion-item>
-          <ion-input label="Name:" formControlName="name" [readonly]="isComponentReadonly"></ion-input>
-        </ion-item>
+      <ion-card color="light" class="ion-no-margin">
+        <ion-card-content class="ion-no-padding">
+          <ion-item>
+            <ion-input label="Name:" formControlName="name" [readonly]="isComponentReadonly"></ion-input>
+          </ion-item>
 
-        <ion-item>
-          <ion-select label="Language:" formControlName="language" interface="action-sheet" [compareWith]="compareIds">
-            <ion-select-option
-              *ngFor="let language of (workbook.languages | sortLanguages)"
-              [value]="language">{{language.shortName}} - {{language.displayName}}</ion-select-option>
-          </ion-select>
-        </ion-item>
+          <ion-item>
+            <ion-select label="Language:" formControlName="language" interface="action-sheet"
+                        [compareWith]="compareIds">
+              <ion-select-option
+                *ngFor="let language of (workbook.languages | sortLanguages)"
+                [value]="language">{{language.shortName}} - {{language.displayName}}</ion-select-option>
+            </ion-select>
+          </ion-item>
 
-        <!--    todo: popover lehetne mi az a text limit-->
-        <ion-item>
-          <ion-input label="Text limit:" formControlName="textLimit" [readonly]="isComponentReadonly"></ion-input>
-        </ion-item>
+          <!--    todo: popover lehetne mi az a text limit-->
+          <ion-item>
+            <ion-input label="Text limit:" formControlName="textLimit" [readonly]="isComponentReadonly"></ion-input>
+          </ion-item>
 
-        <ion-item>
-          <ion-textarea label="Description:" formControlName="description" [autoGrow]="true"
-                        [readonly]="isComponentReadonly"></ion-textarea>
-        </ion-item>
+          <ion-item>
+            <ion-textarea label="Description:" formControlName="description" [autoGrow]="true"
+                          [readonly]="isComponentReadonly"></ion-textarea>
+          </ion-item>
 
-        <ion-item>
-          <ion-checkbox labelPlacement="start" formControlName="default"
-                        (ionChange)="changeCheckbox($event)">
-            Default:
-          </ion-checkbox>
-        </ion-item>
-        <ion-button fill="solid" class="ion-margin-top" expand="block" color="danger"
-                    (click)="confirmDictionaryDelete()">Delete
-        </ion-button>
+          <ion-item lines="none">
+            <ion-checkbox labelPlacement="start" formControlName="default"
+                          (ionChange)="changeCheckbox($event)">
+              Default:
+            </ion-checkbox>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
 
-      </ion-list>
+      <ion-button fill="solid" class="ion-margin-top" expand="block" color="danger"
+                  (click)="confirmDictionaryDelete()">Delete
+      </ion-button>
+
     </div>
   </ion-content>
 </ng-container>
