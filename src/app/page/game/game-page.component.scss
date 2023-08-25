@@ -1,0 +1,20 @@
+.toolbar-content {
+  display: flex;
+  align-items: center;
+}
+
+$height: 36px;
+
+.search-bar {
+  padding: 0;
+  min-width: 70%;
+
+  ::ng-deep .searchbar-input-container.sc-ion-searchbar-ios {
+    height: $height;
+  }
+
+  ::ng-deep .searchbar-input-container.sc-ion-searchbar-md {
+    height: $height;
+  }
+
+}

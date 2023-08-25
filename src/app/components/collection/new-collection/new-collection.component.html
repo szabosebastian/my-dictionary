@@ -1,4 +1,4 @@
-<ion-content *ngIf="(viewModel$ | async) as workbook">
+<ion-content *ngIf="(viewModel$ | async) as workbook" [formGroup]="form">
   <ion-card>
     <!--    <ion-card-header color="light">-->
     <!--      <ion-card-title>-->
@@ -14,10 +14,11 @@
           </ion-item>
           <div class="ion-padding" slot="content">
             <ion-item>
-              <ion-input placeholder="Collection name"></ion-input>
+              <ion-input formControlName="name" placeholder="Collection name"></ion-input>
             </ion-item>
             <ion-item>
-              <ion-input placeholder="Required number to pass a collection"></ion-input>
+              <ion-input formControlName="requiredSuccessfulNumber"
+                         placeholder="Required number to pass a collection"></ion-input>
             </ion-item>
           </div>
         </ion-accordion>
@@ -28,13 +29,13 @@
           </ion-item>
           <div class="ion-padding" slot="content">
             <ion-item>
-              <ion-input placeholder="Number of selection options"></ion-input>
+              <ion-input formControlName="numberOfTextOption" placeholder="Number of selection options"></ion-input>
             </ion-item>
             <ion-item lines="none">
-              <ion-toggle>Default Toggle</ion-toggle>
+              <ion-toggle formControlName="onlyOriginalText">Original texts</ion-toggle>
             </ion-item>
             <ion-item lines="none">
-              <ion-toggle>Default Toggle</ion-toggle>
+              <ion-toggle formControlName="onlyTranslatedText">Translated texts</ion-toggle>
             </ion-item>
           </div>
         </ion-accordion>
@@ -43,10 +44,13 @@
           <ion-item slot="header" color="light">
             <ion-label>Collection texts</ion-label>
           </ion-item>
-          <div class="ion-padding" slot="content">
-            <ion-text>Select the dictionary(s) whose texts you want to add</ion-text>
-            <ion-item lines="none" *ngFor="let dictionary of workbook.dictionaries">
-              <ion-checkbox>{{dictionary.name}}</ion-checkbox>
+          <div class="ion-padding" slot="content" formArrayName="dictionaries">
+            <ion-text>Select the dictionary(s) whose texts you want to
+              add
+            </ion-text>
+            <ion-item [formGroupName]="i"
+                      lines="none" *ngFor="let dictionary of form.controls.dictionaries.controls; index as i">
+              <ion-checkbox formControlName="willBeAdded">{{dictionary.controls?.['name']?.value}}</ion-checkbox>
             </ion-item>
           </div>
         </ion-accordion>
@@ -58,7 +62,7 @@
   <ion-grid>
     <ion-row>
       <ion-col size="6">
-        <ion-button expand="block">
+        <ion-button expand="block" (click)="addCollection()">
           Save
         </ion-button>
       </ion-col>
@@ -70,4 +74,7 @@
     </ion-row>
   </ion-grid>
 
+  <ion-button (click)="log()">
+    LOG
+  </ion-button>
 </ion-content>

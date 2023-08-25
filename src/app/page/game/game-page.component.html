@@ -1,9 +1,29 @@
-<!--<ion-toolbar *ngIf="(viewModel$ | async) as workbook">-->
-<!--    <ion-searchbar [formControl]="typeaheadControl" class="ion-margin-horizontal"-->
-<!--                   placeholder="Type dictionary name..."></ion-searchbar>-->
-<!--</ion-toolbar>-->
+<ion-toolbar *ngIf="(viewModel$ | async) as workbook">
+  <div class="toolbar-content ion-margin-horizontal">
+    <ion-searchbar class="search-bar" [formControl]="typeaheadControl"
+                   placeholder="Type collection name..."></ion-searchbar>
+  </div>
+</ion-toolbar>
 
-<ion-content>
+<ion-content *ngIf="(viewModel$ | async) as workbook">
+  <ion-card class="ion-margin-horizontal"
+            *ngFor="let collection of filteredCollections$ | async">
+    <ion-card-header>
+      <ion-card-title>{{collection.name}}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <!--        {{dictionary.description}}-->
+    </ion-card-content>
+
+    <ion-button fill="clear">Play</ion-button>
+    <ion-button fill="clear">Settings</ion-button>
+  </ion-card>
+
+  <ion-button (click)="log(workbook)">
+    LOG
+  </ion-button>
+
   <ion-fab slot="fixed" vertical="bottom" horizontal="end" class="ion-margin-end ion-margin-bottom">
     <ion-fab-button (click)="createNewCollectionModal()">
       <ion-icon name="add"></ion-icon>

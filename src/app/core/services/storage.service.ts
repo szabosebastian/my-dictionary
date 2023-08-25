@@ -1,5 +1,12 @@
 import { Injectable } from '@angular/core';
-import { DefaultLanguage, defaultLanguagesDisplayNames, Language, WORKBOOK, Workbook } from "../model/workbook";
+import {
+  DefaultLanguage,
+  defaultLanguagesDisplayNames,
+  GameResultStatus,
+  Language,
+  WORKBOOK,
+  Workbook
+} from "../model/workbook";
 import { Storage } from "@ionic/storage-angular";
 import { v4 as uuid } from "uuid";
 import { Store } from "@ngrx/store";
@@ -293,6 +300,33 @@ export class StorageService {
           },
           textLimit: 10,
           texts: []
+        }
+      );
+      workbook.collections.push(
+        {
+          id: "1",
+          name: "HP",
+          texts: [
+            {
+              id: "1",
+              originalText: "alma",
+              translatedText: "apple"
+            }
+          ],
+          dictionaryIds: [],
+          result: {
+            id: "1",
+            failed: 0,
+            successful: 1,
+            status: GameResultStatus.SUCCESSFUL,
+            requiredSuccessfulNumber: 3
+          },
+          gameSettings: {
+            id: "1",
+            numberOfTextOption: 4,
+            onlyOriginalText: true,
+            onlyTranslatedText: false
+          }
         }
       );
       this.setDefaultLanguage(workbook);
