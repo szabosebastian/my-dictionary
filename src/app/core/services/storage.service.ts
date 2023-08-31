@@ -313,11 +313,11 @@ export class StorageService {
               translatedText: "apple"
             }
           ],
-          dictionaryIds: [],
+          dictionaryIds: ["1", "2"],
           result: {
             id: "1",
             failed: 0,
-            successful: 1,
+            successful: 0,
             status: GameResultStatus.SUCCESSFUL,
             requiredSuccessfulNumber: 3
           },

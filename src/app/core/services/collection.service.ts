@@ -3,7 +3,6 @@ import { Collection, Workbook } from "../model/workbook";
 import { setWorkbook } from "../../state/workbook/workbook.actions";
 import { selectWorkbook } from "../../state/workbook/workbook.selector";
 import { Store } from "@ngrx/store";
-import { v4 as uuid } from "uuid";
 import { map, take, tap } from "rxjs";
 
 @Injectable({
@@ -19,8 +18,6 @@ export class CollectionService {
   }
 
   addCollection(collection: Collection) {
-    collection.id = uuid();
-
     this.viewModel$?.pipe(
       take(1),
       map(workbook => this.createNewWorkbookWithAddedCollection(workbook, collection)),
@@ -32,6 +29,28 @@ export class CollectionService {
     return {
       ...workbook,
       collections: [...workbook.collections, newCollection],
+    };
+  }
+
+  updateCollection(collection: Collection) {
+    this.viewModel$?.pipe(
+      take(1),
+      map(workbook => this.createNewWorkbookWithUpdatedDictionary(workbook, collection)),
+      tap((workbook) => this.store.dispatch(setWorkbook({ workbook: workbook })))
+    ).subscribe();
+  }
+
+  private createNewWorkbookWithUpdatedDictionary(workbook: Workbook, collection: Collection): Workbook {
+    return {
+      ...workbook,
+      collections: [...workbook.collections.map(currentCollection => {
+        if (currentCollection.id === collection.id) {
+          return {
+            ...collection
+          };
+        }
+        return currentCollection;
+      })]
     };
   }
 }

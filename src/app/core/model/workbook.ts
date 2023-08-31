@@ -56,7 +56,28 @@ export interface CollectionResult {
 
 export enum GameResultStatus {
   SUCCESSFUL = 'SUCCESSFUL',
-  PENDING = 'PENDING'
+  PENDING = 'PENDING',
+  FAILED = 'FAILED',
+}
+
+export interface GuessingGame {
+  id: string;
+  texts: GuessingGameText[];
+  failedAttemptNumber: number;
+  result: GameResultStatus;
+}
+
+export interface GuessingGameAnswerOption {
+  id: string,
+  answer: string,
+}
+
+export interface GuessingGameText {
+  id: string,
+  text: Text,
+  successful: boolean,
+  failedAttemptNumber: number,
+  originalText: boolean
 }
 
 export enum DefaultLanguage {

@@ -1,0 +1,10 @@
+<ion-content>
+  <p>guessing-game works!</p>
+  <ion-button expand="block" *ngFor="let answer of answerOptions">
+    {{answer.answer}}
+  </ion-button>
+
+
+  <ion-button (click)="log()">LOG</ion-button>
+
+</ion-content>

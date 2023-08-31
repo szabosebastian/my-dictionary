@@ -2,12 +2,13 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule, ModalController } from "@ionic/angular";
 import { SortLanguagesPipe } from "../../pipes/sort-languages.pipe";
-import { NewCollectionComponent } from "../../components/collection/new-collection/new-collection.component";
+import { UpsertCollectionComponent } from "../../components/collection/upsert-collection/upsert-collection.component";
 import { selectWorkbook } from "../../state/workbook/workbook.selector";
 import { Store } from "@ngrx/store";
-import { Workbook } from "../../core/model/workbook";
+import { Collection, Workbook } from "../../core/model/workbook";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from "rxjs";
+import { GuessingGameComponent } from "../../components/collection/guessing-game/guessing-game.component";
 
 @Component({
   selector: 'app-game',
@@ -42,15 +43,32 @@ export class GamePageComponent {
 
   async createNewCollectionModal() {
     const modal = await this.modalCtrl.create({
-      component: NewCollectionComponent,
+      component: UpsertCollectionComponent,
     });
 
     await modal.present();
+  }
 
-    const { data, role } = await modal.onWillDismiss();
+  async playGuessingGame(collection: Collection) {
+    const modal = await this.modalCtrl.create({
+      component: GuessingGameComponent,
+      componentProps: {
+        collection
+      }
+    });
 
-    if (role === 'confirm') {
-    }
+    await modal.present();
+  }
+
+  async modifyCollectionModal(existingCollection?: Collection) {
+    const modal = await this.modalCtrl.create({
+      component: UpsertCollectionComponent,
+      componentProps: {
+        existingCollection: existingCollection
+      }
+    });
+
+    await modal.present();
   }
 
   log(workbook: Workbook) {

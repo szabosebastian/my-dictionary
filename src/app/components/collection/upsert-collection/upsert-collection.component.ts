@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule, ModalController } from "@ionic/angular";
 import { selectWorkbook } from "../../../state/workbook/workbook.selector";
@@ -10,20 +10,22 @@ import { Collection, GameResultStatus } from "../../../core/model/workbook";
 import { v4 as uuid } from "uuid";
 
 @Component({
-  selector: 'app-new-collection',
+  selector: 'app-upsert-collection',
   standalone: true,
   imports: [CommonModule, IonicModule, ReactiveFormsModule],
-  templateUrl: './new-collection.component.html',
-  styleUrls: ['./new-collection.component.scss']
+  templateUrl: './upsert-collection.component.html',
+  styleUrls: ['./upsert-collection.component.scss']
 })
-export class NewCollectionComponent implements OnInit {
+export class UpsertCollectionComponent implements OnInit {
+
+  @Input() existingCollection?: Collection;
 
   form = this.fb.group(
     {
       id: this.fb.control(""),
       name: this.fb.nonNullable.control("", [Validators.required]),
-      requiredSuccessfulNumber: this.fb.nonNullable.control(undefined), //todo 1 vagy nagyobb
-      numberOfTextOption: this.fb.nonNullable.control(undefined),
+      requiredSuccessfulNumber: this.fb.nonNullable.control(0), //todo 1 vagy nagyobb
+      numberOfTextOption: this.fb.nonNullable.control(0),
       onlyOriginalText: this.fb.nonNullable.control(false),
       onlyTranslatedText: this.fb.nonNullable.control(false),
       dictionaries: this.fb.array<FormGroup>([])
@@ -42,21 +44,31 @@ export class NewCollectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.existingCollection) {
+      this.form.controls.id.patchValue(this.existingCollection.id);
+      this.form.controls.name.patchValue(this.existingCollection.name);
+      this.form.controls.requiredSuccessfulNumber.patchValue(this.existingCollection.result.requiredSuccessfulNumber);
+      this.form.controls.numberOfTextOption.patchValue(this.existingCollection.gameSettings.numberOfTextOption);
+      this.form.controls.onlyOriginalText.patchValue(this.existingCollection.gameSettings.onlyOriginalText);
+      this.form.controls.onlyTranslatedText.patchValue(this.existingCollection.gameSettings.onlyTranslatedText);
+    }
+
     this.dictionaryService.getDictionaries().forEach(dictionary => {
+      const willBeAdded = this.existingCollection?.dictionaryIds.includes(dictionary.id);
       this.form.controls.dictionaries.push(
         this.fb.group({
           id: this.fb.nonNullable.control(dictionary.id),
           name: this.fb.nonNullable.control(dictionary.name),
-          willBeAdded: this.fb.nonNullable.control(false),
+          willBeAdded: this.fb.nonNullable.control(willBeAdded),
         })
       );
     });
   }
 
   addCollection() {
-    console.log(this.form.valid);
-    const newCollection: Collection = {
-      id: uuid(),
+    const collectionId = this.existingCollection?.id || uuid();
+    const upsertCollection: Collection = {
+      id: collectionId,
       name: this.form.controls.name.getRawValue(),
       texts: [], //todo szerintem nem fog kelleni
       result: {
@@ -76,12 +88,22 @@ export class NewCollectionComponent implements OnInit {
         .filter(dictionaryControls => dictionaryControls.controls?.['willBeAdded'].value)
         .map(dictionaryControls => dictionaryControls.controls?.['id'].value)
     };
-    this.collectionService.addCollection(newCollection);
+
+    if (this.existingCollection) {
+      this.collectionService.updateCollection(upsertCollection);
+    } else {
+      this.collectionService.addCollection(upsertCollection);
+    }
 
     this.modalCtrl.dismiss(null, 'confirm');
   }
 
+  closeModal() {
+    this.modalCtrl.dismiss(null, 'cancel');
+  }
+
   log() {
     console.log(this.form.getRawValue());
+    console.log(this.existingCollection);
   }
 }
