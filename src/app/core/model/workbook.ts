@@ -12,7 +12,6 @@ export interface Collection {
   id: string;
   name: string;
   dictionaryIds: string[];
-  texts: Text[];
   gameSettings: GameSettings;
   result: CollectionResult;
 }
@@ -43,7 +42,7 @@ export interface GameSettings {
   id: string;
   onlyOriginalText: boolean;
   onlyTranslatedText: boolean;
-  numberOfTextOption: number;
+  numberOfAnswerOption: number;
 }
 
 export interface CollectionResult {
@@ -63,7 +62,7 @@ export enum GameResultStatus {
 export interface GuessingGame {
   id: string;
   texts: GuessingGameText[];
-  failedAttemptNumber: number;
+  failedAttemptCounter: number;
   result: GameResultStatus;
 }
 
@@ -75,9 +74,9 @@ export interface GuessingGameAnswerOption {
 export interface GuessingGameText {
   id: string,
   text: Text,
-  successful: boolean,
-  failedAttemptNumber: number,
-  originalText: boolean
+  isSuccessful: boolean,
+  failedAttemptCounter: number,
+  isOriginalText: boolean
 }
 
 export enum DefaultLanguage {

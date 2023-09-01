@@ -12,10 +12,9 @@ import { selectWorkbook } from "../../../state/workbook/workbook.selector";
 import { Store } from "@ngrx/store";
 import { v4 as uuid } from "uuid";
 import { DictionaryService } from "../../../core/services/dictionary.service";
-import { IonicModule } from "@ionic/angular";
-import { FormBuilder } from "@angular/forms";
+import { IonicModule, ModalController } from "@ionic/angular";
 
-import { sampleSize } from "lodash";
+import { sampleSize, shuffle } from "lodash";
 
 @Component({
   selector: 'app-guessing-game',
@@ -25,7 +24,6 @@ import { sampleSize } from "lodash";
   styleUrls: ['./guessing-game.component.scss']
 })
 export class GuessingGameComponent implements OnInit {
-
   @Input() collection?: Collection;
 
   viewModel$ = this.store.select(selectWorkbook);
@@ -33,42 +31,37 @@ export class GuessingGameComponent implements OnInit {
   guessingGame: GuessingGame = {
     id: uuid(),
     texts: [],
-    failedAttemptNumber: 0,
+    failedAttemptCounter: 0,
     result: GameResultStatus.PENDING
   };
+  //todo: jojjon kintrol collectionbol
+  textFailedAttemptNumber = 2;
+  isGameFinished = false;
 
   currentGameText!: GuessingGameText;
-
-  // answerOptions: GuessingGameAnswerOption[] = [];
   answerOptions: GuessingGameAnswerOption[] = [];
+  pickedAnswer?: GuessingGameAnswerOption;
+
+  get showGameTextCounter() {
+    return this.guessingGame.texts.length;
+  }
+
+  get showGameSuccessfulTextCounter() {
+    return this.guessingGame.texts.filter(text => text.isSuccessful).length;
+  }
+
+  get showCurrentTextValue(): string {
+    if (this.currentGameText.isOriginalText) {
+      return this.currentGameText.text.originalText;
+    }
+    return this.currentGameText.text.translatedText;
+  }
 
   constructor(
     private store: Store,
     private dictionaryService: DictionaryService,
-    private fb: FormBuilder
+    private modalCtrl: ModalController
   ) {
-  }
-
-  setAnswerOptions(currentText: GuessingGameText) {
-    this.answerOptions = [];
-    this.answerOptions.push(
-      {
-        id: currentText.id,
-        answer: currentText.originalText ? currentText.text.translatedText : currentText.text.translatedText
-      }
-    );
-    let filteredAnswers = this.guessingGame.texts
-      .filter(text => text.id !== currentText.id)
-      .map(text => {
-        return {
-          id: text.id,
-          answer: currentText.originalText ? text.text.translatedText : text.text.translatedText
-        };
-      });
-
-    filteredAnswers = sampleSize(filteredAnswers, 3);
-
-    this.answerOptions.push(...filteredAnswers);
   }
 
   ngOnInit() {
@@ -81,19 +74,125 @@ export class GuessingGameComponent implements OnInit {
       this.guessingGame.texts = textsFromDictionaries.map(rawText => {
         return {
           id: uuid(),
-          failedAttemptNumber: 0,
-          originalText: true, //TODO
-          successful: false,
+          failedAttemptCounter: 0,
+          isOriginalText: this.decideTextTypeIsOriginal(), //TODO
+          isSuccessful: false,
           text: rawText
         };
       });
     }
-    this.currentGameText = sampleSize(this.guessingGame.texts, 1)[0];
+    this.setCurrentGameTextToRandom();
     this.setAnswerOptions(this.currentGameText);
+  }
+
+  //todo rendes nev
+  decideTextTypeIsOriginal(): boolean {
+    if (this.collection?.gameSettings.onlyOriginalText === true && this.collection?.gameSettings.onlyTranslatedText === false) {
+      return true;
+    }
+
+    if (this.collection?.gameSettings.onlyOriginalText === false && this.collection?.gameSettings.onlyTranslatedText === true) {
+      return false;
+    }
+
+    if (this.collection?.gameSettings.onlyOriginalText === false && this.collection?.gameSettings.onlyTranslatedText === false) {
+      return true;
+    }
+
+    return Math.random() < 0.5;
+  }
+
+  setAnswerOptions(currentText: GuessingGameText) {
+    this.answerOptions = [];
+    //push the correct answer
+    this.answerOptions.push(
+      {
+        id: currentText.id,
+        answer: currentText.isOriginalText ? currentText.text.translatedText : currentText.text.originalText
+      }
+    );
+
+    let filteredAnswers = this.guessingGame.texts
+      .filter(text => text.id !== currentText.id)
+      .map(text => {
+        return {
+          id: text.id,
+          answer: currentText.isOriginalText ? text.text.translatedText : text.text.originalText
+        };
+      });
+
+    //push other random answers
+    filteredAnswers = sampleSize(filteredAnswers, (this.collection?.gameSettings.numberOfAnswerOption! - 1));
+
+    this.answerOptions.push(...filteredAnswers);
+    this.answerOptions = shuffle(this.answerOptions);
+  }
+
+  //todo jo hely a jatek vegere
+  setCurrentGameTextToRandom() {
+    const values = this.guessingGame.texts
+      .filter(text => !text.isSuccessful && (!text.isSuccessful && text.failedAttemptCounter <= this.textFailedAttemptNumber));
+    if (values.length === 0) {
+      //todo itt befejezzük a játékot
+      this.isGameFinished = true;
+      console.log("vége a játéknak");
+      return;
+    }
+    this.currentGameText = sampleSize(values, 1)[0];
+  }
+
+  getAnswerColorClasses(currentAnswer: GuessingGameAnswerOption) {
+    if (this.pickedAnswer && currentAnswer.id === this.currentGameText.id) {
+      return "success";
+    } else if (this.pickedAnswer && currentAnswer.id === this.pickedAnswer.id && this.pickedAnswer.id !== this.currentGameText.id) {
+      return "failed";
+    }
+    return "-";
+  }
+
+  pickAnswer(answer: GuessingGameAnswerOption) {
+    this.pickedAnswer = answer;
+  }
+
+  nextRound() {
+    //todo lehessen next-elni ha nem választott?
+    if (this.pickedAnswer) {
+      if (this.pickedAnswer.id === this.currentGameText.id) {
+        console.log("jó válasz");
+        this.guessingGame.texts = this.guessingGame.texts.map(text => {
+          if (text.id === this.pickedAnswer?.id) {
+            return {
+              ...text, isSuccessful: true
+            };
+          }
+          return text;
+        });
+      }
+
+      if (this.pickedAnswer.id !== this.currentGameText.id) {
+        console.log("rossz válasz", this.guessingGame.failedAttemptCounter + 1);
+        const currentTextInGuessingGameTextArray = this.guessingGame.texts.find(text => text.id === this.currentGameText.id);
+        let index = this.guessingGame.texts.indexOf(currentTextInGuessingGameTextArray!);
+
+        this.guessingGame.texts[index].failedAttemptCounter = this.guessingGame.texts[index].failedAttemptCounter + 1;
+        this.guessingGame.failedAttemptCounter = this.guessingGame.failedAttemptCounter + 1;
+      }
+
+      this.pickedAnswer = undefined;
+
+      this.setCurrentGameTextToRandom();
+      this.setAnswerOptions(this.currentGameText);
+    }
+  }
+
+  closeModal() {
+    this.modalCtrl.dismiss(null, 'cancel');
   }
 
   log() {
     console.log(this.collection);
     console.log(this.guessingGame);
+    console.log(this.currentGameText);
+    console.log(this.answerOptions);
   }
 }

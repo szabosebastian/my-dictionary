@@ -48,7 +48,7 @@ export class UpsertCollectionComponent implements OnInit {
       this.form.controls.id.patchValue(this.existingCollection.id);
       this.form.controls.name.patchValue(this.existingCollection.name);
       this.form.controls.requiredSuccessfulNumber.patchValue(this.existingCollection.result.requiredSuccessfulNumber);
-      this.form.controls.numberOfTextOption.patchValue(this.existingCollection.gameSettings.numberOfTextOption);
+      this.form.controls.numberOfTextOption.patchValue(this.existingCollection.gameSettings.numberOfAnswerOption);
       this.form.controls.onlyOriginalText.patchValue(this.existingCollection.gameSettings.onlyOriginalText);
       this.form.controls.onlyTranslatedText.patchValue(this.existingCollection.gameSettings.onlyTranslatedText);
     }
@@ -70,7 +70,6 @@ export class UpsertCollectionComponent implements OnInit {
     const upsertCollection: Collection = {
       id: collectionId,
       name: this.form.controls.name.getRawValue(),
-      texts: [], //todo szerintem nem fog kelleni
       result: {
         id: uuid(),
         requiredSuccessfulNumber: this.form.controls.requiredSuccessfulNumber.getRawValue() || 1, //todo nem biztos h jo hogy itt defaultolunk
@@ -80,7 +79,7 @@ export class UpsertCollectionComponent implements OnInit {
       },
       gameSettings: {
         id: uuid(),
-        numberOfTextOption: this.form.controls.numberOfTextOption.getRawValue() || 4, //todo nem biztos h jo hogy itt defaultolunk
+        numberOfAnswerOption: this.form.controls.numberOfTextOption.getRawValue() || 4, //todo nem biztos h jo hogy itt defaultolunk
         onlyTranslatedText: this.form.controls.onlyTranslatedText.getRawValue(),
         onlyOriginalText: this.form.controls.onlyOriginalText.getRawValue()
       },

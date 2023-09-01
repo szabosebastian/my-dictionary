@@ -1,10 +1,23 @@
 <ion-content>
-  <p>guessing-game works!</p>
-  <ion-button expand="block" *ngFor="let answer of answerOptions">
+  <ion-grid>
+    <ion-row>
+      <ion-col>{{showCurrentTextValue}}</ion-col>
+      <ion-col>Összes szó: {{showGameTextCounter}}</ion-col>
+      <ion-col>Sikeres szó: {{showGameSuccessfulTextCounter}}</ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-button [ngClass]="getAnswerColorClasses(answer)" expand="block" (click)="pickAnswer(answer)"
+              *ngFor="let answer of answerOptions">
     {{answer.answer}}
   </ion-button>
 
+  <ion-text *ngIf="isGameFinished">A játéknak vége</ion-text>
+
+  <ion-button (click)="nextRound()">Next</ion-button>
 
   <ion-button (click)="log()">LOG</ion-button>
+
+  <ion-button (click)="closeModal()">Close</ion-button>
 
 </ion-content>
