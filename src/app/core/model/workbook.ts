@@ -43,6 +43,7 @@ export interface GameSettings {
   onlyOriginalText: boolean;
   onlyTranslatedText: boolean;
   numberOfAnswerOption: number;
+  failedAttemptNumber: number;
 }
 
 export interface CollectionResult {

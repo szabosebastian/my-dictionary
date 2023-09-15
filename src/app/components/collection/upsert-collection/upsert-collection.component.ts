@@ -79,6 +79,7 @@ export class UpsertCollectionComponent implements OnInit {
       },
       gameSettings: {
         id: uuid(),
+        failedAttemptNumber: 3, //TODO
         numberOfAnswerOption: this.form.controls.numberOfTextOption.getRawValue() || 4, //todo nem biztos h jo hogy itt defaultolunk
         onlyTranslatedText: this.form.controls.onlyTranslatedText.getRawValue(),
         onlyOriginalText: this.form.controls.onlyOriginalText.getRawValue()

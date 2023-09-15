@@ -7,8 +7,13 @@
     </ion-row>
   </ion-grid>
 
-  <ion-button [ngClass]="getAnswerColorClasses(answer)" expand="block" (click)="pickAnswer(answer)"
-              *ngFor="let answer of answerOptions">
+  <!--  color pipe  -->
+  <ion-button
+    *ngFor="let answer of answerOptions"
+    (click)="pickAnswer(answer)"
+    [color]="getAnswerColorClasses(answer)"
+    [disabled]="pickedAnswer"
+    expand="block">
     {{answer.answer}}
   </ion-button>
 

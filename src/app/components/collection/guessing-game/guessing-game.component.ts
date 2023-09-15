@@ -24,7 +24,7 @@ import { sampleSize, shuffle } from "lodash";
   styleUrls: ['./guessing-game.component.scss']
 })
 export class GuessingGameComponent implements OnInit {
-  @Input() collection?: Collection;
+  @Input() collection!: Collection;
 
   viewModel$ = this.store.select(selectWorkbook);
 
@@ -125,6 +125,8 @@ export class GuessingGameComponent implements OnInit {
     filteredAnswers = sampleSize(filteredAnswers, (this.collection?.gameSettings.numberOfAnswerOption! - 1));
 
     this.answerOptions.push(...filteredAnswers);
+
+    //shuffle answers
     this.answerOptions = shuffle(this.answerOptions);
   }
 
@@ -132,56 +134,61 @@ export class GuessingGameComponent implements OnInit {
   setCurrentGameTextToRandom() {
     const values = this.guessingGame.texts
       .filter(text => !text.isSuccessful && (!text.isSuccessful && text.failedAttemptCounter <= this.textFailedAttemptNumber));
-    if (values.length === 0) {
-      //todo itt befejezzük a játékot
+    //todo itt befejezzük a játékot, ha a text-en lévő hibák száma eléri a maxot akkor is legyen vége
+    if (values.length === 0 || this.isGameFailedAttemptCounterReachedMax()) {
       this.isGameFinished = true;
       console.log("vége a játéknak");
       return;
     }
+
+    // get random unsuccessful text
     this.currentGameText = sampleSize(values, 1)[0];
+  }
+
+  isGameFailedAttemptCounterReachedMax() {
+    return this.guessingGame.failedAttemptCounter >= this.collection.gameSettings.failedAttemptNumber;
   }
 
   getAnswerColorClasses(currentAnswer: GuessingGameAnswerOption) {
     if (this.pickedAnswer && currentAnswer.id === this.currentGameText.id) {
       return "success";
     } else if (this.pickedAnswer && currentAnswer.id === this.pickedAnswer.id && this.pickedAnswer.id !== this.currentGameText.id) {
-      return "failed";
+      return "danger";
     }
-    return "-";
+    return "primary";
   }
 
   pickAnswer(answer: GuessingGameAnswerOption) {
     this.pickedAnswer = answer;
+
+    //todo lehessen next-elni ha nem választott?
+    if (this.pickedAnswer.id === this.currentGameText.id) {
+      console.log("jó válasz");
+      this.guessingGame.texts = this.guessingGame.texts.map(text => {
+        if (text.id === this.pickedAnswer?.id) {
+          return {
+            ...text, isSuccessful: true
+          };
+        }
+        return text;
+      });
+    }
+
+    if (this.pickedAnswer.id !== this.currentGameText.id) {
+      console.log("rossz válasz", this.guessingGame.failedAttemptCounter + 1);
+      const currentTextInGuessingGameTextArray = this.guessingGame.texts.find(text => text.id === this.currentGameText.id);
+      let index = this.guessingGame.texts.indexOf(currentTextInGuessingGameTextArray!);
+
+      this.guessingGame.texts[index].failedAttemptCounter = this.guessingGame.texts[index].failedAttemptCounter + 1;
+      this.guessingGame.failedAttemptCounter = this.guessingGame.failedAttemptCounter + 1;
+    }
   }
 
   nextRound() {
-    //todo lehessen next-elni ha nem választott?
     if (this.pickedAnswer) {
-      if (this.pickedAnswer.id === this.currentGameText.id) {
-        console.log("jó válasz");
-        this.guessingGame.texts = this.guessingGame.texts.map(text => {
-          if (text.id === this.pickedAnswer?.id) {
-            return {
-              ...text, isSuccessful: true
-            };
-          }
-          return text;
-        });
-      }
-
-      if (this.pickedAnswer.id !== this.currentGameText.id) {
-        console.log("rossz válasz", this.guessingGame.failedAttemptCounter + 1);
-        const currentTextInGuessingGameTextArray = this.guessingGame.texts.find(text => text.id === this.currentGameText.id);
-        let index = this.guessingGame.texts.indexOf(currentTextInGuessingGameTextArray!);
-
-        this.guessingGame.texts[index].failedAttemptCounter = this.guessingGame.texts[index].failedAttemptCounter + 1;
-        this.guessingGame.failedAttemptCounter = this.guessingGame.failedAttemptCounter + 1;
-      }
-
-      this.pickedAnswer = undefined;
-
       this.setCurrentGameTextToRandom();
       this.setAnswerOptions(this.currentGameText);
+      this.pickedAnswer = undefined;
     }
   }
 
@@ -194,5 +201,6 @@ export class GuessingGameComponent implements OnInit {
     console.log(this.guessingGame);
     console.log(this.currentGameText);
     console.log(this.answerOptions);
+    console.log(this.isGameFailedAttemptCounterReachedMax());
   }
 }

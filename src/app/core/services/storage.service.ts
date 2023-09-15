@@ -166,6 +166,7 @@ export class StorageService {
           gameSettings: {
             id: "1",
             numberOfAnswerOption: 4,
+            failedAttemptNumber: 3,
             onlyOriginalText: true,
             onlyTranslatedText: false
           }
