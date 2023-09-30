@@ -1,3 +1,10 @@
-//ion-item::part(native) {
-//  --border-radius: 1rem;
-//}
+@media (prefers-color-scheme: dark) {
+  ion-item {
+    --background: #2c2c2c;
+  }
+}
+
+.card-margin {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

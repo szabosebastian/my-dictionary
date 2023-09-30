@@ -6,7 +6,7 @@
 </ion-toolbar>
 
 <ion-content *ngIf="(viewModel$ | async) as workbook">
-  <ion-card class="ion-margin-horizontal"
+  <ion-card class="box-shadow ion-margin-horizontal"
             *ngFor="let collection of filteredCollections$ | async">
     <ion-card-header>
       <ion-card-title>{{collection.name}}</ion-card-title>
@@ -14,8 +14,8 @@
 
     <ion-card-content>
       Required number: {{collection.result.requiredSuccessfulNumber}}
-      Successful: {{collection.result.successful}}
-      Failed: {{collection.result.failed}}
+      Successful: {{collection.result.successfulCounter}}
+      Failed: {{collection.result.failCounter}}
     </ion-card-content>
 
     <ion-button fill="clear" (click)="playGuessingGame(collection)">Play</ion-button>

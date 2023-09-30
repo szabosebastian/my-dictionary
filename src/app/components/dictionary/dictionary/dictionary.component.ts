@@ -44,8 +44,9 @@ export class DictionaryComponent implements OnInit {
       startWith(this.typeaheadControl.value)
     ).pipe(
       map(searchedText => {
+        searchedText = searchedText.toLowerCase();
         return this.form.controls.texts.controls.filter((group) => {
-          return group.controls?.['originalText'].value.includes(searchedText) || group.controls?.['translatedText'].value.includes(searchedText);
+          return group.controls?.['originalText'].value.toLowerCase().includes(searchedText) || group.controls?.['translatedText'].value.toLowerCase().includes(searchedText);
         });
       })
     );
@@ -196,11 +197,19 @@ export class DictionaryComponent implements OnInit {
     this.dictionaryService.deleteDictionary(id);
   }
 
-  changeCheckbox(event: Event) {
-    if ((event as CustomEvent).detail.checked) {
-      const defaultDictionary = this.dictionaryService.getDefaultDictionary();
-      if (defaultDictionary && defaultDictionary.id != this.dictionary.id) {
-        this.presentAlert(defaultDictionary);
+  changeDefaultToggle(event: Event) {
+    const toggleValue = (event as CustomEvent).detail.checked;
+    if (toggleValue !== undefined) {
+      if (toggleValue) {
+        const defaultDictionary = this.dictionaryService.getDefaultDictionary();
+        if (defaultDictionary && defaultDictionary.id != this.dictionary.id) {
+          console.log(defaultDictionary);
+          this.presentAlert(defaultDictionary);
+          this.form.controls.default.patchValue(false);
+        } else {
+          this.form.controls.default.patchValue(true);
+        }
+      } else {
         this.form.controls.default.patchValue(false);
       }
     }
@@ -226,6 +235,6 @@ export class DictionaryComponent implements OnInit {
   }
 
   log() {
-    console.log(this.form.getRawValue().texts);
+    console.log(this.form.getRawValue());
   }
 }

@@ -1,33 +1,51 @@
-<ion-content *ngIf="(viewModel$ | async) as workbook" [formGroup]="form">
-  <ion-card>
-    <!--    <ion-card-header color="light">-->
-    <!--      <ion-card-title>-->
-    <!--        New Collection-->
-    <!--      </ion-card-title>-->
-    <!--    </ion-card-header>-->
-    <ion-card-content class="ion-no-padding">
-      <ion-accordion-group>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title>{{existingCollection ? "Edit collection" : "Create collection"}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="createCollection()">{{existingCollection ? "Save" : "Create"}}</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content *ngIf="(viewModel$ | async) as workbook" [formGroup]="form">
+
+  <ion-card class="box-shadow card-margin">
+    <ion-card-content class="ion-no-padding">
+      <ion-accordion-group value="collection">
         <ion-accordion value="collection">
+
           <ion-item slot="header" color="light">
-            <ion-label>Collection properties</ion-label>
+            <ion-label><strong>Collection properties</strong></ion-label>
           </ion-item>
-          <div class="ion-padding" slot="content">
+          <div class="ion-no-padding" slot="content">
             <ion-item>
-              <ion-input formControlName="name" placeholder="Collection name"></ion-input>
+              <ion-input formControlName="name">
+                Collection name:
+              </ion-input>
             </ion-item>
-            <ion-item>
+            <ion-item lines="none">
               <ion-input formControlName="requiredSuccessfulNumber"
                          placeholder="Required number to pass a collection"></ion-input>
             </ion-item>
           </div>
+
         </ion-accordion>
+      </ion-accordion-group>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="box-shadow card-margin">
+    <ion-card-content class="ion-no-padding">
+      <ion-accordion-group>
 
         <ion-accordion value="gameSettings">
           <ion-item slot="header" color="light">
-            <ion-label>Collection game settings</ion-label>
+            <ion-label><strong>Collection game settings</strong></ion-label>
           </ion-item>
-          <div class="ion-padding" slot="content">
+          <div class="ion-no-padding" slot="content">
             <ion-item>
               <ion-input formControlName="numberOfTextOption" placeholder="Number of selection options"></ion-input>
             </ion-item>
@@ -40,14 +58,24 @@
           </div>
         </ion-accordion>
 
+      </ion-accordion-group>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="box-shadow card-margin">
+    <ion-card-content class="ion-no-padding">
+      <ion-accordion-group>
+
         <ion-accordion value="texts">
           <ion-item slot="header" color="light">
-            <ion-label>Collection texts</ion-label>
+            <ion-label><strong>Collection texts</strong></ion-label>
           </ion-item>
-          <div class="ion-padding" slot="content" formArrayName="dictionaries">
-            <ion-text>Select the dictionary(s) whose texts you want to
-              add
-            </ion-text>
+          <div class="ion-no-padding" slot="content" formArrayName="dictionaries">
+            <ion-item lines="none">
+              <ion-text class="ion-padding-vertical">Select the dictionary(s) whose texts you want to
+                add.
+              </ion-text>
+            </ion-item>
             <ion-item [formGroupName]="i"
                       lines="none" *ngFor="let dictionary of form.controls.dictionaries.controls; index as i">
               <ion-checkbox formControlName="willBeAdded">{{dictionary.controls?.['name']?.value}}</ion-checkbox>
@@ -58,21 +86,6 @@
       </ion-accordion-group>
     </ion-card-content>
   </ion-card>
-
-  <ion-grid>
-    <ion-row>
-      <ion-col size="6">
-        <ion-button expand="block" (click)="addCollection()">
-          Save
-        </ion-button>
-      </ion-col>
-      <ion-col size="6">
-        <ion-button fill="outline" expand="block" (click)="closeModal()">
-          Back
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
 
   <ion-button (click)="log()">
     LOG

@@ -65,7 +65,7 @@ export class UpsertCollectionComponent implements OnInit {
     });
   }
 
-  addCollection() {
+  createCollection() {
     const collectionId = this.existingCollection?.id || uuid();
     const upsertCollection: Collection = {
       id: collectionId,
@@ -74,8 +74,8 @@ export class UpsertCollectionComponent implements OnInit {
         id: uuid(),
         requiredSuccessfulNumber: this.form.controls.requiredSuccessfulNumber.getRawValue() || 1, //todo nem biztos h jo hogy itt defaultolunk
         status: GameResultStatus.PENDING,
-        successful: 0,
-        failed: 0
+        successfulCounter: 0,
+        failCounter: 0
       },
       gameSettings: {
         id: uuid(),

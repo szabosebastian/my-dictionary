@@ -50,8 +50,8 @@ export interface CollectionResult {
   id: string;
   status: GameResultStatus;
   requiredSuccessfulNumber: number;
-  failed: number;
-  successful: number;
+  failCounter: number;
+  successfulCounter: number;
 }
 
 export enum GameResultStatus {

@@ -1,21 +1,20 @@
 <ion-content [formGroup]="form" *ngIf="(workbook$ | async) as workbook">
-
-  <ion-card color="light">
+  <ion-card class="box-shadow" color="light">
     <ion-card-header class="ion-no-padding">
       <ion-item color="light" [button]="true" [detail]="true">
         <ion-label>Dictionary:</ion-label>
         <div slot="end"
-             (click)="selectFromDictionaries(workbook.dictionaries)">{{ currentDictionaryControl?.getRawValue()?.name }}
+             (click)="selectFromDictionaries(workbook.dictionaries)">{{ currentDictionaryControl.getRawValue()?.name }}
           - {{ currentDictionaryControl.getRawValue()?.language?.shortName }}</div>
       </ion-item>
     </ion-card-header>
     <ion-card-content class="ion-no-padding">
       <ion-item color="light" class="ion-margin-top">
-        <ion-textarea label="From:" formControlName="originalText" [clearOnEdit]="true"></ion-textarea>
+        <ion-textarea label="From:" formControlName="originalText"></ion-textarea>
       </ion-item>
 
       <ion-item color="light">
-        <ion-textarea label="To:" formControlName="translatedText" [clearOnEdit]="true"></ion-textarea>
+        <ion-textarea label="To:" formControlName="translatedText"></ion-textarea>
       </ion-item>
     </ion-card-content>
 
@@ -29,7 +28,7 @@
   <!--  </ion-button>-->
 
   <div class="ion-margin-top">
-    <ion-card color="light">
+    <ion-card class="box-shadow" color="light">
       <ion-card-header class="ion-no-padding ion-padding-top ion-padding-start">
         <ion-card-subtitle>
           Latest text
@@ -39,14 +38,15 @@
         <ion-item-sliding #slidingItem [formGroup]="lastTextForm">
           <ion-item lines="none" color="light"
                     *ngIf="workbook | findLastTextByDictionary: currentDictionaryControl?.getRawValue()">
-            <ion-textarea label="Translated text" labelPlacement="floating" formControlName="translatedText"
-                          class="ion-margin ion-text-wrap ion-no-padding">
-            </ion-textarea>
             <ion-textarea
+              [autoGrow]="true"
               label="Original text"
               labelPlacement="floating"
               formControlName="originalText"
               class="ion-margin ion-text-wrap ion-no-padding"/>
+            <ion-textarea label="Translated text" labelPlacement="floating" formControlName="translatedText"
+                          class="ion-margin ion-text-wrap ion-no-padding">
+            </ion-textarea>
             <ion-icon name="chevron-back" slot="end"></ion-icon>
           </ion-item>
           <ion-item-options>

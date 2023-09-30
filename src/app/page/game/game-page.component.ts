@@ -27,8 +27,9 @@ export class GamePageComponent {
       startWith(this.typeaheadControl.value),
     ).pipe(
       switchMap((searchedText) => {
+        searchedText = searchedText.toLowerCase();
         return this.viewModel$.pipe(
-          map((workbook) => workbook.collections.filter((collection) => collection.name.includes(searchedText)))
+          map((workbook) => workbook.collections.filter((collection) => collection.name.toLowerCase().includes(searchedText)))
         );
       })
     );

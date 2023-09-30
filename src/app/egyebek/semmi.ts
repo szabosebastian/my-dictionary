@@ -35,3 +35,34 @@
 // <ion-item-option color="danger" (click)="deleteText(workbook, dictionary, word)">Delete</ion-item-option>
 //   </ion-item-options>
 //   </ion-item-sliding>
+
+//
+// <!--        <div class="ion-margin-top flex-container">-->
+// <!--          <ion-button (click)="confirm()">-->
+// <!--            Create dictionary-->
+// <!--          </ion-button>-->
+// <!--          <ion-button (click)="cancel()" slot="end">-->
+// <!--            Close-->
+// <!--          </ion-button>-->
+//     <!--        </div>-->
+
+
+//.textarea-disabled {
+//  opacity: 1 !important;
+//}
+//
+//.input-disabled {
+//  opacity: 1 !important;
+//}
+//
+//.select-disabled {
+//  opacity: 1 !important;
+//}
+//
+//.checkbox-disabled {
+//  opacity: 1 !important;
+//}
+//
+//.toggle-disabled {
+//  opacity: 1 !important;
+//}

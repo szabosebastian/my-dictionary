@@ -18,6 +18,8 @@ import { setWorkbook } from "../../state/workbook/workbook.actions";
 })
 export class StorageService {
 
+  BG_UUID = "db1c6360-3c98-4f30-a620-4f709facb6f3";
+
   constructor(
     private storage: Storage,
     private store: Store
@@ -50,7 +52,7 @@ export class StorageService {
           default: true,
           description: "This is a desctiption to bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla ",
           language: {
-            id: uuid(),
+            id: this.BG_UUID,
             shortName: DefaultLanguage.BG,
             displayName: defaultLanguagesDisplayNames[DefaultLanguage.BG]
           },
@@ -158,8 +160,8 @@ export class StorageService {
           dictionaryIds: ["2"],
           result: {
             id: "1",
-            failed: 0,
-            successful: 0,
+            failCounter: 0,
+            successfulCounter: 0,
             status: GameResultStatus.SUCCESSFUL,
             requiredSuccessfulNumber: 3
           },
@@ -182,8 +184,10 @@ export class StorageService {
   createDefaultLanguages(workbook: Workbook): void {
     const languageKeys = Object.keys(DefaultLanguage);
     languageKeys.forEach((key, index) => {
+      const id = key === "BG" ? this.BG_UUID : uuid();
+      console.log(key === "BG");
       workbook.languages.push({
-        id: uuid(),
+        id: id,
         shortName: key,
         displayName: defaultLanguagesDisplayNames[DefaultLanguage[key as keyof typeof DefaultLanguage]]
       } as Language);

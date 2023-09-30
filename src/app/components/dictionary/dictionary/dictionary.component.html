@@ -22,7 +22,7 @@
     </ion-segment>
     <div class="ion-margin-top" *ngIf="selectedSegment === 'texts'">
       <div class="d-flex flex-row">
-        <ion-searchbar placeholder="Search texts..." class="ion-no-padding"
+        <ion-searchbar placeholder="Search text..." class="ion-no-padding"
                        [formControl]="typeaheadControl"></ion-searchbar>
         <ion-buttons>
           <ion-button fill="clear" size="small" color="primary" class="ion-no-margin" (click)="sortTextSheet()">
@@ -30,7 +30,7 @@
           </ion-button>
         </ion-buttons>
       </div>
-      
+
       <ion-card color="light" class="ion-no-margin">
         <ion-card-content class="ion-no-padding">
           <ng-container>
@@ -66,7 +66,8 @@
           </ion-item>
 
           <ion-item>
-            <ion-select label="Language:" formControlName="language" interface="action-sheet"
+            <ion-select label="Language:" formControlName="language"
+                        interface="action-sheet"
                         [compareWith]="compareIds">
               <ion-select-option
                 *ngFor="let language of (workbook.languages | sortLanguages)"
@@ -85,10 +86,9 @@
           </ion-item>
 
           <ion-item lines="none">
-            <ion-checkbox labelPlacement="start" formControlName="default"
-                          (ionChange)="changeCheckbox($event)">
-              Default:
-            </ion-checkbox>
+            <ion-toggle labe labelPlacement="start" formControlName="default"
+                        (ionChange)="changeDefaultToggle($event)"> Default:
+            </ion-toggle>
           </ion-item>
         </ion-card-content>
       </ion-card>
@@ -96,7 +96,6 @@
       <ion-button fill="solid" class="ion-margin-top" expand="block" color="danger"
                   (click)="confirmDictionaryDelete()">Delete
       </ion-button>
-
     </div>
   </ion-content>
 </ng-container>

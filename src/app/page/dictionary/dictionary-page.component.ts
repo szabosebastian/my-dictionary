@@ -39,9 +39,10 @@ export class DictionaryPageComponent implements OnInit {
       startWith(this.currentLanguageControl.value)),
   ]).pipe(
     switchMap(([searchedText, currentLanguage]) => {
+      searchedText = searchedText.toLowerCase();
       return this.viewModel$.pipe(
         map((workbook) => workbook.dictionaries.filter((dictionary) => dictionary.language.shortName === (currentLanguage as Language).shortName) || []),
-        map((dictionary) => dictionary.filter((dc) => dc.name.includes(searchedText)))
+        map((dictionary) => dictionary.filter((dc) => dc.name.toLowerCase().includes(searchedText)))
       );
     })
   );
@@ -57,10 +58,9 @@ export class DictionaryPageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  async addDictionaryModal(dictionary?: Dictionary) {
+  async createNewDictionaryModal(dictionary?: Dictionary) {
     const modal = await this.modalCtrl.create({
       component: NewDictionaryModalComponent,
-      id: 'alert-modal',
       componentProps: {
         selectedLanguage: this.currentLanguageControl.getRawValue(),
         dictionary

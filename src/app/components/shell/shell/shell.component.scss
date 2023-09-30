@@ -1,3 +1,9 @@
 ion-toolbar {
   --min-height: 0rem !important;
 }
+
+//TODO
+::ng-deep .sc-ion-action-sheet-ios-h {
+  --height: 50%;
+}
+

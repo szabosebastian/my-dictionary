@@ -10,8 +10,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content color="light" class="ion-padding">
-  <ion-list id="modal-list" [inset]="true">
+<ion-content class="ion-padding">
+  <ion-list [inset]="true">
     <ion-item *ngFor="let dictionary of filteredDictionaries;">
       <ion-item (click)="confirm(dictionary)">{{ dictionary.name }}</ion-item>
     </ion-item>

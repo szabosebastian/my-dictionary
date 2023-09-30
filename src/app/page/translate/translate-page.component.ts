@@ -28,7 +28,7 @@ import { TextService } from "../../core/services/text.service";
   styleUrls: ['./translate-page.component.scss']
 })
 export class TranslatePageComponent implements ViewDidEnter {
-  currentDictionaryControl = new FormControl(this.dictionaryService.getDefaultDictionary(), { nonNullable: true });
+  currentDictionaryControl = new FormControl(this.dictionaryService.getDefaultDictionaryOrFirst(), { nonNullable: true });
 
   form = this.fb.group({
     originalText: this.fb.nonNullable.control(''),

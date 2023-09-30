@@ -24,7 +24,7 @@
 
 
 <ion-content *ngIf="(viewModel$ | async) as workbook">
-  <ion-card class="ion-margin-horizontal"
+  <ion-card class="box-shadow ion-margin-horizontal"
             *ngFor="let dictionary of filteredDictionaries$  | async" (click)="openDictionaryModal(dictionary)">
     <ion-card-header>
       <ion-card-title>{{dictionary.name}}</ion-card-title>
@@ -37,7 +37,7 @@
   </ion-card>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end" class="ion-margin-end ion-margin-bottom">
-    <ion-fab-button (click)="addDictionaryModal()">
+    <ion-fab-button (click)="createNewDictionaryModal()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

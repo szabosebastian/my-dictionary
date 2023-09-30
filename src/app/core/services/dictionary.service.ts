@@ -38,6 +38,19 @@ export class DictionaryService {
     ).subscribe(
       (res) => {
         console.log(res.dictionaries);
+        defaultDictionary = res.dictionaries.find(dictionary => dictionary.default) || undefined;
+      }
+    );
+    return defaultDictionary;
+  }
+
+  getDefaultDictionaryOrFirst(): Dictionary | undefined {
+    let defaultDictionary: Dictionary | undefined;
+    this.viewModel$?.pipe(
+      take(1),
+    ).subscribe(
+      (res) => {
+        console.log(res.dictionaries);
         defaultDictionary = res.dictionaries.find(dictionary => dictionary.default) || res.dictionaries[0] || undefined;
       }
     );
