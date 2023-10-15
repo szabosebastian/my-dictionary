@@ -5,6 +5,7 @@ import {
   GameResultStatus,
   GuessingGame,
   GuessingGameAnswerOption,
+  GuessingGameSettings,
   GuessingGameText,
   Text
 } from "../../../core/model/workbook";
@@ -25,6 +26,7 @@ import { sampleSize, shuffle } from "lodash";
 })
 export class GuessingGameComponent implements OnInit {
   @Input() collection!: Collection;
+  @Input() gameSettings!: GuessingGameSettings;
 
   viewModel$ = this.store.select(selectWorkbook);
 
@@ -87,15 +89,15 @@ export class GuessingGameComponent implements OnInit {
 
   //todo rendes nev
   decideTextTypeIsOriginal(): boolean {
-    if (this.collection?.gameSettings.onlyOriginalText === true && this.collection?.gameSettings.onlyTranslatedText === false) {
+    if (this.gameSettings?.isTargetTextOriginal === true && this.gameSettings?.isTargetTextTranslated === false) {
       return true;
     }
 
-    if (this.collection?.gameSettings.onlyOriginalText === false && this.collection?.gameSettings.onlyTranslatedText === true) {
+    if (this.gameSettings?.isTargetTextOriginal === false && this.gameSettings?.isTargetTextTranslated === true) {
       return false;
     }
 
-    if (this.collection?.gameSettings.onlyOriginalText === false && this.collection?.gameSettings.onlyTranslatedText === false) {
+    if (this.gameSettings?.isTargetTextOriginal === false && this.gameSettings?.isTargetTextTranslated === false) {
       return true;
     }
 
@@ -122,7 +124,7 @@ export class GuessingGameComponent implements OnInit {
       });
 
     //push other random answers
-    filteredAnswers = sampleSize(filteredAnswers, (this.collection?.gameSettings.numberOfAnswerOption! - 1));
+    filteredAnswers = sampleSize(filteredAnswers, (this.gameSettings?.numberOfAnswerOption! - 1));
 
     this.answerOptions.push(...filteredAnswers);
 
@@ -146,7 +148,7 @@ export class GuessingGameComponent implements OnInit {
   }
 
   isGameFailedAttemptCounterReachedMax() {
-    return this.guessingGame.failedAttemptCounter >= this.collection.gameSettings.failedAttemptNumber;
+    return this.guessingGame.failedAttemptCounter >= this.gameSettings?.failedAttemptNumber;
   }
 
   getAnswerColorClasses(currentAnswer: GuessingGameAnswerOption) {

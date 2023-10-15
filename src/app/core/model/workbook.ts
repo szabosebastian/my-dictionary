@@ -12,7 +12,7 @@ export interface Collection {
   id: string;
   name: string;
   dictionaryIds: string[];
-  gameSettings: GameSettings;
+  gameSettings: GuessingGameSettings[];
   result: CollectionResult;
 }
 
@@ -40,8 +40,12 @@ export interface Language {
 
 export interface GameSettings {
   id: string;
-  onlyOriginalText: boolean;
-  onlyTranslatedText: boolean;
+  type: GameType;
+}
+
+export interface GuessingGameSettings extends GameSettings {
+  isTargetTextOriginal: boolean;
+  isTargetTextTranslated: boolean;
   numberOfAnswerOption: number;
   failedAttemptNumber: number;
 }
@@ -79,6 +83,14 @@ export interface GuessingGameText {
   failedAttemptCounter: number,
   isOriginalText: boolean
 }
+
+export enum GameType {
+  GUESSING_GAME = "GUESSING_GAME"
+}
+
+export const gameTypeDisplayNames: Record<GameType, string> = {
+  GUESSING_GAME: "Guessing game",
+};
 
 export enum DefaultLanguage {
   BG = "BG",

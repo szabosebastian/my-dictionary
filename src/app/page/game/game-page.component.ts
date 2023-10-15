@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule, ModalController } from "@ionic/angular";
+import { ActionSheetButton, ActionSheetController, IonicModule, ModalController } from "@ionic/angular";
 import { SortLanguagesPipe } from "../../pipes/sort-languages.pipe";
 import { UpsertCollectionComponent } from "../../components/collection/upsert-collection/upsert-collection.component";
 import { selectWorkbook } from "../../state/workbook/workbook.selector";
 import { Store } from "@ngrx/store";
-import { Collection, Workbook } from "../../core/model/workbook";
+import { Collection, GameType, gameTypeDisplayNames, Workbook } from "../../core/model/workbook";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from "rxjs";
 import { GuessingGameComponent } from "../../components/collection/guessing-game/guessing-game.component";
@@ -38,6 +38,7 @@ export class GamePageComponent {
 
   constructor(
     private modalCtrl: ModalController,
+    private actionSheetCtrl: ActionSheetController,
     private store: Store
   ) {
   }
@@ -59,6 +60,35 @@ export class GamePageComponent {
     });
 
     await modal.present();
+  }
+
+  async playGame(collection: Collection) {
+    const gameTypes = collection.gameSettings.map(gameSettings => gameSettings.type);
+
+    const buttons: ActionSheetButton[] = [];
+
+    //TODO: generic
+    const gameMode1 = {
+      text: gameTypeDisplayNames[GameType.GUESSING_GAME],
+      handler: () => this.playGuessingGame(collection)
+    };
+
+    buttons.push(gameMode1);
+
+    //TODO: add new gamemode
+    buttons.push({
+      text: "Add new game mode",
+      data: {
+        action: "new"
+      }
+    });
+
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Game modes',
+      buttons: buttons,
+    });
+
+    await actionSheet.present();
   }
 
   async modifyCollectionModal(existingCollection?: Collection) {

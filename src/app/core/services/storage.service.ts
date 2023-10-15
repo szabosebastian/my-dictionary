@@ -3,6 +3,7 @@ import {
   DefaultLanguage,
   defaultLanguagesDisplayNames,
   GameResultStatus,
+  GameType,
   Language,
   WORKBOOK,
   Workbook
@@ -165,13 +166,14 @@ export class StorageService {
             status: GameResultStatus.SUCCESSFUL,
             requiredSuccessfulNumber: 3
           },
-          gameSettings: {
+          gameSettings: [{
             id: "1",
+            type: GameType.GUESSING_GAME,
             numberOfAnswerOption: 4,
             failedAttemptNumber: 3,
-            onlyOriginalText: true,
-            onlyTranslatedText: false
-          }
+            isTargetTextOriginal: true,
+            isTargetTextTranslated: false
+          }]
         }
       );
       this.setDefaultLanguage(workbook);

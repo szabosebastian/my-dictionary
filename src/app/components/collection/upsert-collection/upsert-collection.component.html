@@ -26,9 +26,10 @@
                 Collection name:
               </ion-input>
             </ion-item>
-            <ion-item lines="none">
-              <ion-input formControlName="requiredSuccessfulNumber"
-                         placeholder="Required number to pass a collection"></ion-input>
+            <ion-item class="ion-margin-bottom">
+              <ion-input type="number" formControlName="requiredSuccessfulNumber">
+                Required number to pass a collection:
+              </ion-input>
             </ion-item>
           </div>
 
@@ -47,14 +48,28 @@
           </ion-item>
           <div class="ion-no-padding" slot="content">
             <ion-item>
-              <ion-input formControlName="numberOfTextOption" placeholder="Number of selection options"></ion-input>
+              <ion-label><strong>Game modes:</strong></ion-label>
             </ion-item>
             <ion-item lines="none">
-              <ion-toggle formControlName="onlyOriginalText">Original texts</ion-toggle>
+              <ion-toggle formControlName="guessingGameMode">Guessing game</ion-toggle>
             </ion-item>
-            <ion-item lines="none">
-              <ion-toggle formControlName="onlyTranslatedText">Translated texts</ion-toggle>
-            </ion-item>
+
+            <div class="ion-padding-start" *ngIf="form.controls.guessingGameMode.getRawValue()">
+              <ion-item>
+                <ion-input type="number" formControlName="guessingGameModeNumberOfAnswerOption">
+                  Number of answers:
+                </ion-input>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-text>The target text can be:</ion-text>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-toggle formControlName="guessingGameModeIsTargetTextOriginal">Original text</ion-toggle>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-toggle formControlName="guessingGameModeIsTargetTextTranslated">Translated text</ion-toggle>
+              </ion-item>
+            </div>
           </div>
         </ion-accordion>
 
